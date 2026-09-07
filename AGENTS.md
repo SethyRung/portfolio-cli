@@ -1,11 +1,14 @@
 # AGENTS.md
 
-## Runtime
+## Commands
 
-- **Requires Bun >= 1.3.0** — this is not a Node.js project
-- Install: `bun install` (no `npm`/`pnpm`/`yarn`)
-- Dev server (watch mode): `bun dev`
-- Typecheck: `bun run typecheck` — do not call `tsc` directly
+- `bun install` — install dependencies
+- `bun run dev` — dev server (watch mode)
+- `bun run typecheck` — TypeScript type check
+- `bun run lint` — lint with oxlint
+- `bun run lint:fix` — lint + auto-fix
+- `bun run fmt` — format with oxfmt
+- `bun run fmt:check` — check formatting
 
 ## Stack
 

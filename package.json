@@ -5,7 +5,11 @@
   "module": "src/index.tsx",
   "scripts": {
     "dev": "bun run --watch src/index.tsx",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
   },
   "dependencies": {
     "@opentui/core": "^0.5.10",
@@ -14,6 +18,8 @@
   },
   "devDependencies": {
     "@types/bun": "1.4.1",
+    "oxfmt": "^0.66.0",
+    "oxlint": "^1.81.0",
     "typescript": "^7.0.2"
   },
   "engines": {
