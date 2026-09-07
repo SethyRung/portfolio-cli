@@ -1,0 +1,22 @@
+{
+  "name": "@sethyrung/portfolio",
+  "private": true,
+  "type": "module",
+  "module": "src/index.tsx",
+  "scripts": {
+    "dev": "bun run --watch src/index.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@opentui/core": "^0.5.10",
+    "@opentui/react": "^0.5.10",
+    "react": "^19.2.8"
+  },
+  "devDependencies": {
+    "@types/bun": "1.4.1",
+    "typescript": "^7.0.2"
+  },
+  "engines": {
+    "bun": ">=1.4.0"
+  }
+}
