@@ -12,7 +12,7 @@ Distributed as `@sethyrung/portfolio`, runnable via `npx @sethyrung/portfolio` o
 
 ### Top Tabs Layout
 
-Navigation paradigm using a top tab bar (About, Stack, Projects, Contact), driven by Arrow Keys, number keys [1-4], and 'q'/Esc to quit.
+Navigation paradigm using a top tab bar (About, Skills, Projects, Contact), driven by Arrow Keys, number keys [1-4], and 'q'/Esc to quit.
 
 ### Catppuccin Theme
 

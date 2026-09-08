@@ -59,3 +59,93 @@ describe("Dev Card shell", () => {
     expect(setup.renderer.isDestroyed).toBe(true);
   });
 });
+
+describe("Top Tabs Layout", () => {
+  let setup: TestRendererSetup | undefined;
+
+  afterEach(() => {
+    if (setup && !setup.renderer.isDestroyed) {
+      setup.renderer.destroy();
+    }
+  });
+
+  test("lists About, Skills, Projects, and Contact with About active", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    const frame = await setup.waitForFrame((f) => f.includes("who I am"));
+    expect(frame).toContain("About");
+    expect(frame).toContain("Skills");
+    expect(frame).toContain("Projects");
+    expect(frame).toContain("Contact");
+    expect(frame).toContain("who I am");
+  });
+
+  test("About shows identity highlights from the profile", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    const frame = await setup.waitForFrame((f) => f.includes("InnoBlock Technology"));
+    expect(frame).toContain("Identity");
+    expect(frame).toContain("Building software across web");
+    expect(frame).toContain("InnoBlock Technology");
+    expect(frame).toContain("BSc Computer Science");
+    expect(frame).toContain("Royal University of Phnom Penh");
+    expect(frame).toContain("2019");
+    expect(frame).toContain("2023");
+  });
+
+  test("About bullets are plain text with markdown stripped", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    const frame = await setup.waitForFrame((f) => f.includes("Software Developer working across"));
+    expect(frame).toContain("Software Developer working across");
+    expect(frame).toContain("Vue.js, Nuxt.js, TypeScript");
+    expect(frame).toContain("turning ideas into");
+    expect(frame).not.toContain("**");
+  });
+
+  test("number keys 1-4 jump to the corresponding tab", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+
+    setup.mockInput.pressKey("2");
+    let frame = await setup.waitForFrame((f) => f.includes("stack"));
+    expect(frame).toContain("stack");
+    expect(frame).not.toContain("who I am");
+    expect(frame).not.toContain("InnoBlock Technology");
+
+    setup.mockInput.pressKey("3");
+    frame = await setup.waitForFrame((f) => f.includes("work") && !f.includes("who I am"));
+    expect(frame).not.toContain("stack");
+    expect(frame).not.toContain("links");
+    expect(frame).not.toContain("InnoBlock Technology");
+
+    setup.mockInput.pressKey("4");
+    frame = await setup.waitForFrame((f) => f.includes("links"));
+    expect(frame).toContain("links");
+    expect(frame).not.toContain("who I am");
+    expect(frame).not.toContain("InnoBlock Technology");
+
+    setup.mockInput.pressKey("1");
+    frame = await setup.waitForFrame((f) => f.includes("who I am"));
+    expect(frame).toContain("who I am");
+    expect(frame).toContain("InnoBlock Technology");
+  });
+
+  test("Left and Right arrows cycle tabs, wrapping at the ends", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+
+    setup.mockInput.pressArrow("left");
+    let frame = await setup.waitForFrame((f) => f.includes("links"));
+    expect(frame).toContain("links");
+    expect(frame).not.toContain("who I am");
+    expect(frame).not.toContain("InnoBlock Technology");
+
+    setup.mockInput.pressArrow("right");
+    frame = await setup.waitForFrame((f) => f.includes("who I am"));
+    expect(frame).toContain("who I am");
+    expect(frame).toContain("InnoBlock Technology");
+
+    setup.mockInput.pressArrow("right");
+    frame = await setup.waitForFrame((f) => f.includes("stack"));
+    expect(frame).not.toContain("who I am");
+    expect(frame).not.toContain("InnoBlock Technology");
+  });
+});
