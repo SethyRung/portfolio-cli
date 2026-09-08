@@ -161,13 +161,15 @@ export function Prototype({ initialTab = 0 }: { initialTab?: number }) {
       borderColor={theme.mauve}
       title=" @sethyrung/portfolio "
       titleColor={theme.mauve}
+      bottomTitle=" 1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit "
+      bottomTitleAlignment="left"
       padding={1}
     >
       <box flexDirection="row" alignItems="flex-end" gap={2}>
         <ascii-font font="tiny" text={profile.displayName} color={theme.mauve} />
         <box flexDirection="column" flexGrow={1} justifyContent="flex-end">
           <text fg={theme.teal}>{profile.taglines.join(" / ")}</text>
-          <text fg={theme.subtext}>{profile.jobTitle} · {profile.location}</text>
+          <text fg={theme.subtext}>{profile.location}</text>
         </box>
       </box>
 
@@ -219,9 +221,17 @@ export function Prototype({ initialTab = 0 }: { initialTab?: number }) {
               padding={1}
               backgroundColor={theme.mantle}
             >
-              <text fg={theme.text}>• Software Developer working across web, mobile, and desktop platforms.</text>
-              <text fg={theme.text}>• Experienced in Vue.js, Nuxt.js, TypeScript, React, Java, Spring Boot, C#, and Kotlin.</text>
-              <text fg={theme.text}>• Passionate about exploring new technologies and turning ideas into polished projects.</text>
+              <text fg={theme.text}>
+                • Software Developer working across web, mobile, and desktop platforms.
+              </text>
+              <text fg={theme.text}>
+                • Experienced in Vue.js, Nuxt.js, TypeScript, React, Java, Spring Boot, C#, and
+                Kotlin.
+              </text>
+              <text fg={theme.text}>
+                • Passionate about exploring new technologies and turning ideas into polished
+                projects.
+              </text>
             </box>
           </box>
         ) : tab === 1 ? (
@@ -290,11 +300,11 @@ export function Prototype({ initialTab = 0 }: { initialTab?: number }) {
               <text />
               <text fg={theme.subtext}>{selectedProject.description}</text>
               <text />
-              <text fg={theme.blue}>repo  {selectedProject.repo}</text>
+              <text fg={theme.blue}>repo {selectedProject.repo}</text>
               {"live" in selectedProject && selectedProject.live ? (
-                <text fg={theme.teal}>live  {selectedProject.live}</text>
+                <text fg={theme.teal}>live {selectedProject.live}</text>
               ) : (
-                <text fg={theme.subtext}>live  —</text>
+                <text fg={theme.subtext}>live —</text>
               )}
               <text />
               <text fg={theme.subtext}>enter opens repo</text>
@@ -347,10 +357,6 @@ export function Prototype({ initialTab = 0 }: { initialTab?: number }) {
             </box>
           </box>
         )}
-      </box>
-
-      <box backgroundColor={theme.crust} paddingLeft={1} marginTop={1}>
-        <text fg={theme.subtext}>1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit</text>
       </box>
     </box>
   );

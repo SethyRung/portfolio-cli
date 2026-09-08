@@ -4,6 +4,7 @@
 
 - `bun install` — install dependencies
 - `bun run dev` — dev server (watch mode)
+- `bun run test` — run tests
 - `bun run typecheck` — TypeScript type check
 - `bun run lint` — lint with oxlint
 - `bun run lint:fix` — lint + auto-fix

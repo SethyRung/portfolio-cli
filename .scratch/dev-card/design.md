@@ -12,20 +12,20 @@ OpenTUI components own chrome, tabs, and lists. This replaces the flat stacked-t
 
 Every tab uses the same shell:
 
-1. Outer `<box borderStyle="rounded" borderColor=mauve title="@sethyrung/portfolio">`
-2. Header row: `<ascii-font font="tiny">` display name (mauve) + tagline (teal) + `jobTitle · location` (subtext)
+1. Outer `<box borderStyle="rounded" borderColor=mauve title="@sethyrung/portfolio" bottomTitle>`
+2. Header row: `<ascii-font font="tiny">` display name (mauve) + tagline (teal) + location (subtext). Job title is not repeated here — it already leads the tagline.
 3. `<tab-select>` — About / Skills / Projects / Contact
    - descriptions: who I am / stack / work / links
    - underline on the active tab
    - selected bg = mauve, selected text = crust
 4. Tab body (`flexGrow`)
-5. Footer hint bar on crust: `1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit`
+5. No extra footer bar. Key model lives on the frame `bottomTitle` (left): `1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit`
 
 ## Palette (Catppuccin Mocha)
 
 | Token   | Hex       | Use                                      |
 | ------- | --------- | ---------------------------------------- |
-| crust   | `#11111b` | footer, selected text                    |
+| crust   | `#11111b` | selected text                            |
 | mantle  | `#181825` | inner card fill                          |
 | base    | `#1e1e2e` | app background                           |
 | text    | `#cdd6f4` | body                                     |
@@ -58,7 +58,7 @@ App-level `useKeyboard` owns tab keys. `<select>` is focused only on list tabs s
 | About columns      | two titled rounded `<box>`                   |
 | Skills groups      | wrapped titled rounded `<box>`               |
 | Projects / Contact | `<select>` + titled detail `<box>`           |
-| Footer             | crust `<box>` + `<text>`                     |
+| Key hints          | outer box `bottomTitle`                      |
 
 ---
 
@@ -73,7 +73,7 @@ Two titled rounded cards, row layout:
 ╭─ @sethyrung/portfolio ───────────────────────────────────────────────────────────────────────────╮
 │                                                                                                  │
 │ █▀▀ █▀▀ ▀█▀ █ █ █▄█   █▀█ █ █ █▄ █ █▀▀  Full Stack Developer / Cross-Platform Enthusiast         │
-│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Full Stack Developer · Phnom Penh, Cambodia              │
+│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Phnom Penh, Cambodia                                     │
 │  About             Skills            Projects          Contact                                   │
 │ ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                                                                               │
 │  who I am                                                                                        │
@@ -98,10 +98,7 @@ Two titled rounded cards, row layout:
 │ │                                             │ │                                              │ │
 │ │                                             │ │                                              │ │
 │ ╰─────────────────────────────────────────────╯ ╰──────────────────────────────────────────────╯ │
-│                                                                                                  │
-│  1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit                                         │
-│                                                                                                  │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╰─ 1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit ────────────────────────────────────╯
 ```
 
 ## Skills
@@ -120,7 +117,7 @@ Five wrapped category cards, one accent each. Items inherit the card accent (cor
 ╭─ @sethyrung/portfolio ───────────────────────────────────────────────────────────────────────────╮
 │                                                                                                  │
 │ █▀▀ █▀▀ ▀█▀ █ █ █▄█   █▀█ █ █ █▄ █ █▀▀  Full Stack Developer / Cross-Platform Enthusiast         │
-│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Full Stack Developer · Phnom Penh, Cambodia              │
+│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Phnom Penh, Cambodia                                     │
 │  About             Skills            Projects          Contact                                   │
 │                   ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                                                             │
 │  stack                                                                                           │
@@ -143,12 +140,7 @@ Five wrapped category cards, one accent each. Items inherit the card accent (cor
 │ │ Git                         │ │                            │                                   │
 │ │                             │ │                            │                                   │
 │ ╰─────────────────────────────╯ ╰────────────────────────────╯                                   │
-│                                                                                                  │
-│                                                                                                  │
-│                                                                                                  │
-│  1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit                                         │
-│                                                                                                  │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╰─ 1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit ────────────────────────────────────╯
 ```
 
 ## Projects
@@ -163,7 +155,7 @@ Master-detail:
 ╭─ @sethyrung/portfolio ───────────────────────────────────────────────────────────────────────────╮
 │                                                                                                  │
 │ █▀▀ █▀▀ ▀█▀ █ █ █▄█   █▀█ █ █ █▄ █ █▀▀  Full Stack Developer / Cross-Platform Enthusiast         │
-│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Full Stack Developer · Phnom Penh, Cambodia              │
+│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Phnom Penh, Cambodia                                     │
 │  About             Skills            Projects          Contact                                   │
 │                                     ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                                           │
 │  work                                                                                            │
@@ -188,10 +180,7 @@ Master-detail:
 │ │   Mart Management                                       │ │                                  │ │
 │ │   Desktop mart ops + inventory                          │ │                                  │ │
 │ ╰─────────────────────────────────────────────────────────╯ ╰──────────────────────────────────╯ │
-│                                                                                                  │
-│  1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit                                         │
-│                                                                                                  │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╰─ 1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit ────────────────────────────────────╯
 ```
 
 ## Contact
@@ -209,7 +198,7 @@ Same master-detail:
 ╭─ @sethyrung/portfolio ───────────────────────────────────────────────────────────────────────────╮
 │                                                                                                  │
 │ █▀▀ █▀▀ ▀█▀ █ █ █▄█   █▀█ █ █ █▄ █ █▀▀  Full Stack Developer / Cross-Platform Enthusiast         │
-│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Full Stack Developer · Phnom Penh, Cambodia              │
+│ ▄▄█ ██▄  █  █▀█  █    █▀▄ █▄█ █ ▀█ █▄█  Phnom Penh, Cambodia                                     │
 │  About             Skills            Projects          Contact                                   │
 │                                                       ▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬▬                         │
 │  links                                                                                           │
@@ -234,10 +223,7 @@ Same master-detail:
 │ │                                                     │ │                                      │ │
 │ │                                                     │ │                                      │ │
 │ ╰─────────────────────────────────────────────────────╯ ╰──────────────────────────────────────╯ │
-│                                                                                                  │
-│  1-4 tabs  ←/→ cycle  ↑/↓ select  enter open  q/esc quit                                         │
-│                                                                                                  │
-╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+╰─ 1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit ────────────────────────────────────╯
 ```
 
 ---
