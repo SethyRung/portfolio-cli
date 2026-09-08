@@ -1,6 +1,11 @@
 import { useState } from "react";
 import { useKeyboard, useRenderer } from "@opentui/react";
-import { profile } from "./config/profile.ts";
+import {
+  TECH_CATEGORIES,
+  profile,
+  type TechCategory,
+  type TechStackEntry,
+} from "./config/profile.ts";
 import { theme } from "./theme.ts";
 
 const HINT = "1-4 tabs · ←/→ cycle · ↑/↓ select · enter open · q/esc quit";
@@ -11,6 +16,22 @@ function aboutBullets(markdown: string): string[] {
     .map((line) => line.trim())
     .filter((line) => line.startsWith("- "))
     .map((line) => line.slice(2).replaceAll("**", ""));
+}
+
+const CATEGORY_ACCENT: Record<TechCategory, string> = {
+  Frontend: theme.mauve,
+  Backend: theme.green,
+  Database: theme.blue,
+  Tools: theme.peach,
+  Mobile: theme.teal,
+};
+
+function skillsByCategory(entries: readonly TechStackEntry[]) {
+  return TECH_CATEGORIES.map((category) => ({
+    category,
+    accent: CATEGORY_ACCENT[category],
+    items: entries.filter((entry) => entry.category === category).map((entry) => entry.title),
+  }));
 }
 
 const TABS = [
@@ -120,6 +141,28 @@ export function App() {
                 </text>
               ))}
             </box>
+          </box>
+        ) : tab === 1 ? (
+          <box flexDirection="row" flexWrap="wrap" gap={1} flexGrow={1}>
+            {skillsByCategory(profile.techStack).map((group) => (
+              <box
+                key={group.category}
+                border
+                borderStyle="rounded"
+                borderColor={group.accent}
+                title={` ${group.category} `}
+                titleColor={group.accent}
+                padding={1}
+                width="32%"
+                backgroundColor={theme.mantle}
+              >
+                {group.items.map((item) => (
+                  <text key={item} fg={group.accent}>
+                    {item}
+                  </text>
+                ))}
+              </box>
+            ))}
           </box>
         ) : null}
       </box>

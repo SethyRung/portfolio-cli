@@ -1,7 +1,5 @@
 # Dev Card UI Design
 
-Live prototype: `.scratch/dev-card/prototype.tsx`
-
 Viewport: **100 × 32**. Narrower or shorter → Non-TTY Fallback card.
 
 OpenTUI components own chrome, tabs, and lists. This replaces the flat stacked-text mock.

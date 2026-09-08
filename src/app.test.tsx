@@ -149,3 +149,52 @@ describe("Top Tabs Layout", () => {
     expect(frame).not.toContain("InnoBlock Technology");
   });
 });
+
+describe("Skills tab", () => {
+  let setup: TestRendererSetup | undefined;
+
+  afterEach(() => {
+    if (setup && !setup.renderer.isDestroyed) {
+      setup.renderer.destroy();
+    }
+  });
+
+  test("shows tech-stack group headings", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("2");
+    const frame = await setup.waitForFrame((f) => f.includes("Frontend"));
+    expect(frame).toContain("Frontend");
+    expect(frame).toContain("Backend");
+    expect(frame).toContain("Database");
+    expect(frame).toContain("Tools");
+    expect(frame).toContain("Mobile");
+  });
+
+  test("lists every tech-stack entry from the profile", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("2");
+    const frame = await setup.waitForFrame((f) => f.includes("Frontend") && f.includes("GSAP"));
+    expect(frame).toContain("Vue.js");
+    expect(frame).toContain("Nuxt.js");
+    expect(frame).toContain("React");
+    expect(frame).toContain("TypeScript");
+    expect(frame).toContain("Tailwind CSS");
+    expect(frame).toContain("GSAP");
+    expect(frame).toContain("Node.js");
+    expect(frame).toContain("Bun");
+    expect(frame).toContain("Spring Boot");
+    expect(frame).toContain("NestJS");
+    expect(frame).toContain("FastAPI");
+    expect(frame).toContain("Directus");
+    expect(frame).toContain("PostgreSQL");
+    expect(frame).toContain("SQL Server");
+    expect(frame).toContain("MongoDB");
+    expect(frame).toContain("Vite");
+    expect(frame).toContain("Docker");
+    expect(frame).toContain("Git");
+    expect(frame).toContain("Kotlin");
+    expect(frame).toContain("Flutter");
+  });
+});
