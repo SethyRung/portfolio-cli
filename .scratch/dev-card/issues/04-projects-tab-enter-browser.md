@@ -4,12 +4,23 @@
 
 **Blocked by:** 02 (Top Tabs Layout + About tab). Runs in parallel with 03.
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Projects tab renders every project from the Profile Configuration as a one-line row (title, description, stack tags), fitting a ≥24-row terminal
-- [ ] One row is always selected with visible focus; Up/Down move it, bounded at the list ends
-- [ ] The selected row shows the repository URL and the live demo link when one exists
-- [ ] Enter passes the selected project's repository URL to the opener adapter
-- [ ] The browser opener is injected; the interactive screen never spawns processes directly
-- [ ] Spy test: pressing Enter on a known selection requests exactly that project's repository URL
-- [ ] Frame tests: the focus marker moves visibly with Up/Down, and the selected row's URLs appear in the frame
+## Done
+
+- [x] Projects tab renders every project from the Profile Configuration as a one-line row (title, description, stack tags), fitting a ≥24-row terminal
+- [x] One row is always selected with visible focus; Up/Down move it, bounded at the list ends
+- [x] The selected row shows the repository URL and the live demo link when one exists
+- [x] Enter passes the selected project's repository URL to the opener adapter
+- [x] The browser opener is injected; the interactive screen never spawns processes directly
+- [x] Spy test: pressing Enter on a known selection requests exactly that project's repository URL
+- [x] Frame tests: the focus marker moves visibly with Up/Down, and the selected row's URLs appear in the frame
+- [x] lint, format check, and typecheck pass
+
+## Files
+
+- `src/config/profile.ts` — all 14 projects with repo/live/stacks
+- `src/app.tsx` — Projects master-detail; Enter via injected `openUrl`
+- `src/open-url.ts` — platform opener (`open` / `xdg-open` / `start`)
+- `src/index.tsx` — injects opener into App
+- `src/app.test.tsx` — list, selection, and opener-spy tests

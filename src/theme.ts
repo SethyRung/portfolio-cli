@@ -2,6 +2,7 @@ export const theme = {
   crust: "#11111b",
   base: "#1e1e2e",
   mantle: "#181825",
+  surface: "#313244",
   mauve: "#cba6f7",
   blue: "#89b4fa",
   teal: "#94e2d5",

@@ -198,3 +198,70 @@ describe("Skills tab", () => {
     expect(frame).toContain("Flutter");
   });
 });
+
+describe("Projects tab", () => {
+  let setup: TestRendererSetup | undefined;
+
+  afterEach(() => {
+    if (setup && !setup.renderer.isDestroyed) {
+      setup.renderer.destroy();
+    }
+  });
+
+  test("lists projects and shows the selected repo and live URLs", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("3");
+    const frame = await setup.waitForFrame((f) => f.includes("Movies"));
+    expect(frame).toContain("Movies");
+    expect(frame).toContain("Helpdesk");
+    expect(frame).toContain("The Angkor Times");
+    expect(frame).toContain("movies.sethyrung.com");
+    expect(frame).toContain("enter opens live");
+    expect(frame).not.toContain("Asset Management Backend");
+    expect(frame).not.toContain("Chongkran Backend");
+    expect(frame).not.toContain("EasyPay Backend");
+  });
+
+  test("Down moves the project selection", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("3");
+    await setup.waitForFrame((f) => f.includes("enter opens live"));
+    setup.mockInput.pressArrow("down");
+    const frame = await setup.waitForFrame((f) => f.includes("live —"));
+    expect(frame).toContain("Helpdesk");
+    expect(frame).toContain("live —");
+    expect(frame).not.toContain("movies.sethyrung.com");
+  });
+
+  test("Enter opens live when it exists, otherwise the repo", async () => {
+    const opened: string[] = [];
+    setup = await testRender(<App openUrl={(url) => opened.push(url)} />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("3");
+    await setup.waitForFrame((f) => f.includes("Movies"));
+    setup.mockInput.pressEnter();
+    expect(opened).toEqual(["https://movies.sethyrung.com"]);
+
+    setup.mockInput.pressArrow("down");
+    await setup.waitForFrame((f) => f.includes("live —"));
+    setup.mockInput.pressEnter();
+    expect(opened).toEqual([
+      "https://movies.sethyrung.com",
+      "https://github.com/SethyRung/helpdesk",
+    ]);
+  });
+
+  test("Tab chooses repo instead of live before Enter", async () => {
+    const opened: string[] = [];
+    setup = await testRender(<App openUrl={(url) => opened.push(url)} />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("3");
+    await setup.waitForFrame((f) => f.includes("enter opens live"));
+    setup.mockInput.pressTab();
+    await setup.waitForFrame((f) => f.includes("enter opens repo"));
+    setup.mockInput.pressEnter();
+    expect(opened).toEqual(["https://github.com/SethyRung/movies"]);
+  });
+});

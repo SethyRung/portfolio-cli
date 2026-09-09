@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useKeyboard, useRenderer } from "@opentui/react";
 import {
   TECH_CATEGORIES,
@@ -26,6 +26,55 @@ const CATEGORY_ACCENT: Record<TechCategory, string> = {
   Mobile: theme.teal,
 };
 
+function displayUrl(url: string): string {
+  return url.replace(/^https:\/\//, "").replace(/\/$/, "");
+}
+
+type OpenTarget = "live" | "repo" | "backend";
+type ProfileProject = (typeof profile.projects)[number];
+
+function projectHasLive(project: ProfileProject): project is ProfileProject & { live: string } {
+  return "live" in project && typeof project.live === "string";
+}
+
+function projectHasBackend(
+  project: ProfileProject,
+): project is ProfileProject & { backend: string } {
+  return "backend" in project && typeof project.backend === "string";
+}
+
+function projectTargets(project: ProfileProject): OpenTarget[] {
+  const targets: OpenTarget[] = [];
+  if (projectHasLive(project)) {
+    targets.push("live");
+  }
+  targets.push("repo");
+  if (projectHasBackend(project)) {
+    targets.push("backend");
+  }
+  return targets;
+}
+
+function defaultTarget(project: ProfileProject): OpenTarget {
+  return projectHasLive(project) ? "live" : "repo";
+}
+
+function nextTarget(project: ProfileProject, current: OpenTarget): OpenTarget {
+  const targets = projectTargets(project);
+  const index = targets.indexOf(current);
+  return targets[(index + 1) % targets.length] ?? "repo";
+}
+
+function urlFor(project: ProfileProject, target: OpenTarget): string {
+  if (target === "live" && projectHasLive(project)) {
+    return project.live;
+  }
+  if (target === "backend" && projectHasBackend(project)) {
+    return project.backend;
+  }
+  return project.repo;
+}
+
 function skillsByCategory(entries: readonly TechStackEntry[]) {
   return TECH_CATEGORIES.map((category) => ({
     category,
@@ -41,10 +90,19 @@ const TABS = [
   { name: "Contact", description: "links", value: 3 },
 ] as const;
 
-export function App() {
+export function App({ openUrl }: { openUrl?: (url: string) => void } = {}) {
   const renderer = useRenderer();
   const [tab, setTab] = useState(0);
+  const [projectIndex, setProjectIndex] = useState(0);
+  const [openTarget, setOpenTarget] = useState<OpenTarget>("live");
+  const openTargetRef = useRef(openTarget);
+  openTargetRef.current = openTarget;
   const activeTab = TABS[tab] ?? TABS[0];
+  const selectedProject = profile.projects[projectIndex] ?? profile.projects[0];
+  const liveChosen = openTarget === "live" && projectHasLive(selectedProject);
+  const backendChosen = openTarget === "backend";
+  const repoChosen = openTarget === "repo" || (!liveChosen && !backendChosen);
+  const canToggle = projectTargets(selectedProject).length > 1;
 
   useKeyboard((key) => {
     if (renderer.isDestroyed) {
@@ -62,6 +120,13 @@ export function App() {
       setTab((current) => (current + 1) % TABS.length);
       return;
     }
+    if (key.name === "tab") {
+      key.preventDefault();
+      if (tab === 2 && canToggle) {
+        setOpenTarget((current) => nextTarget(selectedProject, current));
+      }
+      return;
+    }
     if (key.name >= "1" && key.name <= "4") {
       setTab(Number(key.name) - 1);
     }
@@ -71,7 +136,7 @@ export function App() {
     <box
       flexDirection="column"
       flexGrow={1}
-      backgroundColor={theme.base}
+      backgroundColor="transparent"
       border
       borderStyle="rounded"
       borderColor={theme.mauve}
@@ -113,7 +178,7 @@ export function App() {
               title=" Identity "
               titleColor={theme.blue}
               padding={1}
-              backgroundColor={theme.mantle}
+              backgroundColor="transparent"
             >
               <text fg={theme.text}>{profile.bio}</text>
               <text />
@@ -133,7 +198,7 @@ export function App() {
               title=" About "
               titleColor={theme.teal}
               padding={1}
-              backgroundColor={theme.mantle}
+              backgroundColor="transparent"
             >
               {aboutBullets(profile.about).map((bullet) => (
                 <text key={bullet} fg={theme.text}>
@@ -154,7 +219,7 @@ export function App() {
                 titleColor={group.accent}
                 padding={1}
                 width="32%"
-                backgroundColor={theme.mantle}
+                backgroundColor="transparent"
               >
                 {group.items.map((item) => (
                   <text key={item} fg={group.accent}>
@@ -163,6 +228,83 @@ export function App() {
                 ))}
               </box>
             ))}
+          </box>
+        ) : tab === 2 ? (
+          <box flexDirection="row" gap={1} flexGrow={1}>
+            <box
+              flexGrow={2}
+              flexDirection="column"
+              border
+              borderStyle="rounded"
+              borderColor={theme.blue}
+              title=" Projects "
+              titleColor={theme.blue}
+              backgroundColor="transparent"
+            >
+              <select
+                focused
+                flexGrow={1}
+                options={profile.projects.map((project) => ({
+                  name: project.title,
+                  description: project.description,
+                }))}
+                selectedIndex={projectIndex}
+                showDescription
+                showSelectionIndicator
+                showScrollIndicator
+                wrapSelection={false}
+                selectedBackgroundColor={theme.surface}
+                selectedTextColor={theme.text}
+                selectedDescriptionColor={theme.subtext}
+                descriptionColor={theme.subtext}
+                textColor={theme.text}
+                backgroundColor="transparent"
+                onChange={(index) => {
+                  setProjectIndex(index);
+                  const project = profile.projects[index];
+                  setOpenTarget(project ? defaultTarget(project) : "repo");
+                }}
+                onSelect={(index) => {
+                  const project = profile.projects[index];
+                  if (project) {
+                    openUrl?.(urlFor(project, openTargetRef.current));
+                  }
+                }}
+              />
+            </box>
+            <box
+              width={58}
+              border
+              borderStyle="rounded"
+              borderColor={theme.peach}
+              title=" Selected "
+              titleColor={theme.peach}
+              padding={1}
+              backgroundColor="transparent"
+            >
+              <text fg={theme.peach}>{selectedProject.title}</text>
+              <text fg={theme.subtext}>{selectedProject.stacks.join(" · ")}</text>
+              <text />
+              <text fg={theme.subtext}>{selectedProject.description}</text>
+              <text />
+              <text fg={liveChosen ? theme.teal : theme.subtext}>
+                {liveChosen ? "▸" : " "} live{" "}
+                {projectHasLive(selectedProject) ? displayUrl(selectedProject.live) : "—"}
+              </text>
+              <text fg={repoChosen ? theme.blue : theme.subtext}>
+                {repoChosen ? "▸" : " "} repo {displayUrl(selectedProject.repo)}
+              </text>
+              {projectHasBackend(selectedProject) ? (
+                <text fg={backendChosen ? theme.green : theme.subtext}>
+                  {backendChosen ? "▸" : " "} backend {displayUrl(selectedProject.backend)}
+                </text>
+              ) : null}
+              <text />
+              <text fg={theme.subtext}>
+                enter opens {liveChosen ? "live" : backendChosen ? "backend" : "repo"}
+                {canToggle ? " · tab toggles" : ""}
+              </text>
+            </box>
           </box>
         ) : null}
       </box>
