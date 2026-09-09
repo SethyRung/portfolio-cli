@@ -1,23 +1,41 @@
-# react
+# @sethyrung/portfolio
 
-Requires [Bun](https://bun.sh/) 1.3.0 or later.
+Interactive terminal Dev Card for [Sethy Rung](https://sethyrung.com) — identity, stack, projects, and contact — built with [OpenTUI](https://github.com/anomalyco/opentui) and React 19.
 
-To install dependencies:
+## Run
+
+Requires [Bun](https://bun.sh/) 1.4 or later.
 
 ```bash
 bun install
+bun run dev
 ```
 
-To run:
+## Keyboard
+
+| Key         | Action                                      |
+| ----------- | ------------------------------------------- |
+| `1`–`4`     | Jump to About / Skills / Projects / Contact |
+| `←` `→`     | Cycle tabs                                  |
+| `↑` `↓`     | Move selection in Projects and Contact      |
+| `tab`       | Toggle live / repo / backend on a project   |
+| `enter`     | Open the selected link                      |
+| `q` / `esc` | Quit                                        |
+
+## Tabs
+
+- **About** — bio, role, education
+- **Skills** — stack grouped by Frontend, Backend, Database, Tools, Mobile
+- **Projects** — selectable list; Enter opens live (else repo); Tab picks live / repo / backend
+- **Contact** — GitHub, LinkedIn, X, Discord, Telegram, website, email
+
+Profile data lives in `src/config/profile.ts`.
+
+## Develop
 
 ```bash
-bun dev
-```
-
-To typecheck:
-
-```bash
+bun test
 bun run typecheck
+bun run lint
+bun run fmt
 ```
-
-This project was created using `bun create tui`. [create-tui](https://github.com/msmps/create-tui) is the easiest way to get started with OpenTUI.
