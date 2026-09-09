@@ -22,6 +22,12 @@ export type ProjectEntry = {
   live?: string;
 };
 
+export type ContactEntry = {
+  title: string;
+  handle: string;
+  url: string;
+};
+
 export type ProfileConfig = {
   displayName: string;
   taglines: readonly [string, string, ...string[]];
@@ -33,6 +39,8 @@ export type ProfileConfig = {
   education: EducationHighlight;
   techStack: readonly TechStackEntry[];
   projects: readonly ProjectEntry[];
+  contacts: readonly ContactEntry[];
+  email: string;
 };
 
 export const profile = {
@@ -151,4 +159,37 @@ export const profile = {
       repo: "https://github.com/SethyRung/glitch",
     },
   ],
+  contacts: [
+    {
+      title: "GitHub",
+      handle: "sethyrung",
+      url: "https://github.com/sethyrung",
+    },
+    {
+      title: "LinkedIn",
+      handle: "sethyrung",
+      url: "https://www.linkedin.com/in/sethy-rung-146709299/",
+    },
+    {
+      title: "X",
+      handle: "@sethyrung",
+      url: "https://x.com/sethyrung",
+    },
+    {
+      title: "Discord",
+      handle: "sethyrung",
+      url: "https://discord.com/users/sethyrung",
+    },
+    {
+      title: "Telegram",
+      handle: "sethyrung",
+      url: "https://t.me/sethyrung",
+    },
+    {
+      title: "Website",
+      handle: "sethyrung.com",
+      url: "https://sethyrung.com",
+    },
+  ],
+  email: "cnVuZ3NldGh5aGtAZ21haWwuY29t",
 } as const satisfies ProfileConfig;

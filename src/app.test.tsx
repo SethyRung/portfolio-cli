@@ -265,3 +265,54 @@ describe("Projects tab", () => {
     expect(opened).toEqual(["https://github.com/SethyRung/movies"]);
   });
 });
+
+describe("Contact tab", () => {
+  let setup: TestRendererSetup | undefined;
+
+  afterEach(() => {
+    if (setup && !setup.renderer.isDestroyed) {
+      setup.renderer.destroy();
+    }
+  });
+
+  test("lists channels, website, and decoded email", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("4");
+    const frame = await setup.waitForFrame((f) => f.includes("GitHub"));
+    expect(frame).toContain("GitHub");
+    expect(frame).toContain("LinkedIn");
+    expect(frame).toContain("X");
+    expect(frame).toContain("Discord");
+    expect(frame).toContain("Telegram");
+    expect(frame).not.toContain("cnVuZ3NldGh5aGtAZ21haWwuY29t");
+    expect(frame).not.toContain("YouTube");
+  });
+
+  test("Down moves the contact selection", async () => {
+    setup = await testRender(<App />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("4");
+    await setup.waitForFrame((f) => f.includes("github.com/sethyrung"));
+    setup.mockInput.pressArrow("down");
+    const frame = await setup.waitForFrame((f) => f.includes("linkedin.com"));
+    expect(frame).toContain("linkedin.com");
+  });
+
+  test("Enter opens the selected channel, mailto for email", async () => {
+    const opened: string[] = [];
+    setup = await testRender(<App openUrl={(url) => opened.push(url)} />, TERMINAL);
+    await setup.waitForFrame((f) => f.includes("who I am"));
+    setup.mockInput.pressKey("4");
+    await setup.waitForFrame((f) => f.includes("GitHub"));
+    setup.mockInput.pressEnter();
+    expect(opened).toEqual(["https://github.com/sethyrung"]);
+
+    for (let i = 0; i < 6; i++) {
+      setup.mockInput.pressArrow("down");
+    }
+    await setup.waitForFrame((f) => f.includes("▶ Email"));
+    setup.mockInput.pressEnter();
+    expect(opened).toEqual(["https://github.com/sethyrung", "mailto:rungsethyhk@gmail.com"]);
+  });
+});

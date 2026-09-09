@@ -4,11 +4,21 @@
 
 **Blocked by:** 04 (Projects tab with selection and Enter→browser).
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Contact tab renders all social channels (title + handle) plus website and decoded email from the Profile Configuration
-- [ ] Up/Down move the visible selection, bounded at the list ends
-- [ ] Enter requests the selected channel's URL via the opener adapter (mailto for the email row)
-- [ ] Email remains base64-encoded in the configuration; decoding happens only at runtime
-- [ ] Spy and frame tests mirroring the Projects suite
-- [ ] lint, format check, and typecheck pass
+## Done
+
+- [x] Contact tab renders all social channels (title + handle) plus website and decoded email from the Profile Configuration
+- [x] Up/Down move the visible selection, bounded at the list ends
+- [x] Enter requests the selected channel's URL via the opener adapter (mailto for the email row)
+- [x] Email remains base64-encoded in the configuration; decoding happens only at runtime
+- [x] Spy and frame tests mirroring the Projects suite
+- [x] lint, format check, and typecheck pass
+
+YouTube is omitted — it is not in the web portfolio shared data (design).
+
+## Files
+
+- `src/config/profile.ts` — contacts + base64 email
+- `src/app.tsx` — Contact master-detail; Enter via injected opener
+- `src/app.test.tsx` — list, selection, mailto spy tests
