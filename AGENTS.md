@@ -16,7 +16,8 @@
 - **OpenTUI** (`@opentui/core`, `@opentui/react`) — terminal TUI framework
 - React 19 with JSX intrinsic elements defined by OpenTUI (e.g. `<box>`, `<text>`, `<ascii-font>`)
 - **Do not** assume standard DOM/React HTML elements (`<div>`, `<span>`, etc.) are valid
-- Single entry point: `src/index.tsx`
+- Published CLI: `bin/cli.js` re-execs `src/index.tsx` with Bun (`npx`/`bunx @sethyrung/portfolio`)
+- Scoped package is public (`publishConfig.access: public`); OpenTUI needs Bun at runtime
 
 ## JSX / TypeScript
 

@@ -4,7 +4,17 @@ Interactive terminal Dev Card for [Sethy Rung](https://sethyrung.com) — identi
 
 ## Run
 
-Requires [Bun](https://bun.sh/) 1.4 or later.
+Requires [Bun](https://bun.sh/) 1.4 or later. OpenTUI's renderer does not run under Node, so `npx` re-execs through Bun when it is on `PATH`.
+
+```bash
+npx @sethyrung/portfolio
+# or
+bunx @sethyrung/portfolio
+```
+
+Non-TTY or very narrow terminals print a static ANSI card instead of opening the TUI.
+
+### Local
 
 ```bash
 bun install
