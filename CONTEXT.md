@@ -5,7 +5,7 @@ Sethy Rung's terminal portfolio: a Dev Card by default, other Screens on demand.
 ## Language
 
 **Dev Card**:
-The default Screen shown when the CLI is invoked with no arguments: identity, Tagline, and links.
+The default Screen shown when the CLI is invoked with no arguments: identity, Tagline, links, and Hint.
 _Avoid_: business card, home, landing
 
 **Screen**:
@@ -15,6 +15,10 @@ _Avoid_: page, view, TUI, pane, card
 **Tagline**:
 The one-line who-I-am on the Dev Card. Distinct from About.
 _Avoid_: about, bio, headline, subtitle
+
+**Hint**:
+The command map under the Dev Card: Screen commands plus the Role and Project titles a visitor can open. Not `--help` and not the full Screens.
+_Avoid_: menu, footer, help
 
 **About**:
 The bio Screen. Owns the full bio; the Dev Card does not. Not education or certs.

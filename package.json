@@ -29,8 +29,7 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
-    "fmt:check": "oxfmt --check",
-    "prototype:ui": "bun .scratch/portfolio-cli/prototype-server.ts"
+    "fmt:check": "oxfmt --check"
   },
   "dependencies": {
     "@comark/ansi": "^0.7.0",
