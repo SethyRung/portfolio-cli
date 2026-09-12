@@ -4,10 +4,7 @@
   "description": "Interactive terminal Dev Card for Sethy Rung",
   "keywords": [
     "cli",
-    "devcard",
-    "opentui",
-    "portfolio",
-    "tui"
+    "portfolio"
   ],
   "homepage": "https://sethyrung.com",
   "license": "MIT",
@@ -20,35 +17,29 @@
   },
   "files": [
     "bin",
-    "src",
-    "!src/**/*.test.ts",
-    "!src/**/*.test.tsx"
+    "src"
   ],
   "type": "module",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "dev": "bun run --watch src/index.tsx",
-    "start": "bun src/index.tsx",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check",
-    "prepublishOnly": "bun test && bun run typecheck && bun run lint && bun run fmt:check"
+    "prototype:ui": "bun .scratch/portfolio-cli/prototype-server.ts"
   },
   "dependencies": {
-    "@opentui/core": "^0.5.10",
-    "@opentui/react": "^0.5.10",
-    "react": "^19.2.8"
+    "@comark/ansi": "^0.7.0",
+    "comark": "^0.7.0"
   },
   "devDependencies": {
-    "@types/bun": "1.4.1",
-    "@types/react": "^19.2.18",
-    "oxfmt": "^0.66.0",
-    "oxlint": "^1.81.0",
+    "@types/bun": "^1.4.0",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.80.0",
     "typescript": "^7.0.2"
   },
   "engines": {

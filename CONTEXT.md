@@ -1,42 +1,45 @@
-# Ubiquitous Language & Domain Model
+# Portfolio CLI
 
-## Core Concepts
+Sethy Rung's terminal portfolio: a Dev Card by default, other Screens on demand.
 
-### Dev Card (Portfolio TUI)
+## Language
 
-The interactive terminal UI experience focused exclusively on Sethy Rung's developer profile, skills, featured projects, and social contacts. Decoupled from any future developer utility toolkits.
+**Dev Card**:
+The default Screen shown when the CLI is invoked with no arguments: identity, Tagline, and links.
+_Avoid_: business card, home, landing
 
-### Package Scope & Naming
+**Screen**:
+A named portfolio view selected by argument and rendered in the terminal.
+_Avoid_: page, view, TUI, pane, card
 
-Distributed as `@sethyrung/portfolio`, runnable via `npx @sethyrung/portfolio` or `bunx @sethyrung/portfolio`.
+**Tagline**:
+The one-line who-I-am on the Dev Card. Distinct from About.
+_Avoid_: about, bio, headline, subtitle
 
-### Top Tabs Layout
+**About**:
+The bio Screen. Owns the full bio; the Dev Card does not. Not education or certs.
+_Avoid_: bio, profile, education
 
-Navigation paradigm using a top tab bar (About, Skills, Projects, Contact), driven by Arrow Keys, number keys [1-4], and 'q'/Esc to quit.
+**Work**:
+The employment-history Screen.
+_Avoid_: experience, jobs, career
 
-### Catppuccin Theme
+**Projects**:
+The Screen listing shipped Projects.
+_Avoid_: portfolio, work (that's a different Screen)
 
-The visual color palette featuring Catppuccin terminal colors (Mocha: crust `#11111b`, base `#1e1e2e`, mantle `#181825`, mauve `#cba6f7`, blue `#89b4fa`, teal `#94e2d5`, peach `#fab387`, green `#a6e3a1`, text `#cdd6f4`, subtext `#a6adc8`).
+**Project**:
+A shipped piece of work listed on Projects and openable on its own.
+_Avoid_: repo, app, case study
 
-### Navigation & Interaction Model
+**Role**:
+One employment period on Work, openable on its own.
+_Avoid_: job, position, stint, experience
 
-- **Tabs**: `About`, `Skills`, `Projects`, `Contact`. Switched via number keys `[1-4]` or `←` / `→` arrow keys.
-- **List Navigation**: Within `Projects` and `Contact`, `↑` and `↓` arrow keys move selection focus.
-- **Action**: `Enter` opens the highlighted project repository or social profile in the system's default browser.
-- **Exit**: `q` or `Esc` cleanly destroys the renderer and restores the terminal buffer.
+**Period**:
+The date range of a Role or Project.
+_Avoid_: dates, duration, tenure
 
-### Non-TTY Fallback
-
-When `process.stdout.isTTY` is false or terminal width is under minimum viable size, the CLI bypasses OpenTUI and outputs a static ANSI stylized developer card before cleanly exiting.
-
-### Profile Configuration
-
-Single source of truth in a strongly-typed TypeScript configuration file (`src/config/profile.ts`).
-
-### TUI Host
-
-The terminal application container powered by `@opentui/core` and `@opentui/react`, running in raw mode with keyboard navigation, reactive rendering, and ANSI color styling.
-
-### Scoped Package
-
-The distribution artifact published to npm under the `@sethyrung` namespace.
+**Stack**:
+The technologies on a Role or Project. Not a category label.
+_Avoid_: tag, tags, tech, tools
