@@ -1,4 +1,7 @@
 node_modules/
+dist/
+sethyrung
+sethyrung.exe
 
 .env
 .env.*
