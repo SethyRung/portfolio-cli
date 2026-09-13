@@ -1,7 +1,7 @@
 {
   "name": "@sethyrung/portfolio",
   "version": "1.0.0",
-  "description": "Interactive terminal Dev Card for Sethy Rung",
+  "description": "Terminal portfolio for Sethy Rung: a Dev Card by default, other Screens on demand",
   "keywords": [
     "cli",
     "portfolio"
@@ -12,11 +12,16 @@
     "name": "Sethy Rung",
     "url": "https://sethyrung.com"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SethyRung/portfolio-cli.git"
+  },
   "bin": {
     "sethyrung": "bin/cli.js"
   },
   "files": [
     "bin",
+    "dist",
     "src"
   ],
   "type": "module",
@@ -24,6 +29,9 @@
     "access": "public"
   },
   "scripts": {
+    "build": "bun build src/main.ts --target=node --outfile=dist/cli.js --packages=external",
+    "compile": "bun build --compile --asset src/content src/main.ts --outfile sethyrung",
+    "prepack": "bun run build",
     "test": "bun test",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint",
@@ -42,6 +50,7 @@
     "typescript": "^7.0.2"
   },
   "engines": {
-    "bun": ">=1.4.0"
+    "bun": ">=1.4.0",
+    "node": ">=18"
   }
 }

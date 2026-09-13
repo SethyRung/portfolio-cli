@@ -1,0 +1,3 @@
+- **Software Developer** working across **web, mobile, and desktop** platforms.
+- Experienced in **Vue.js, Nuxt.js, TypeScript, React, Java, Spring Boot, C#, and Kotlin**.
+- Passionate about exploring new technologies and turning ideas into reality through polished, thoughtfully crafted projects.
