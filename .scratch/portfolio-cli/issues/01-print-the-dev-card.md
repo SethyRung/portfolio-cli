@@ -4,13 +4,13 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] `sethyrung` with no arguments prints the Dev Card on stdout and exits 0
-- [ ] Dev Card shows name, Tagline, and links to the site, GitHub, and email — not location, pronouns, or the current Role
-- [ ] Dev Card Hint lists `sethyrung about` (bio), `sethyrung work` with each Role title/Period/slug, and `sethyrung projects` with each Project title/Period/slug
-- [ ] `-h` / `--help` prints usage (including Screen names) and exits 0
-- [ ] `-v` / `--version` prints the package version and exits 0
-- [ ] `NO_COLOR` yields no ANSI escape codes
-- [ ] Tests spawn the CLI process only; no internals
-- [ ] The previous TUI is gone; this path is what a visitor runs
+- [x] `sethyrung` with no arguments prints the Dev Card on stdout and exits 0
+- [x] Dev Card shows name, Tagline, and links to the site, GitHub, and email — not location, pronouns, or the current Role
+- [x] Dev Card Hint lists `sethyrung about` (bio), `sethyrung work` with each Role title/Period/slug, and `sethyrung projects` with each Project title/Period/slug
+- [x] `-h` / `--help` prints usage (including Screen names) and exits 0
+- [x] `-v` / `--version` prints the package version and exits 0
+- [x] `NO_COLOR` yields no ANSI escape codes
+- [x] Tests spawn the CLI process only; no internals
+- [x] The previous TUI is gone; this path is what a visitor runs

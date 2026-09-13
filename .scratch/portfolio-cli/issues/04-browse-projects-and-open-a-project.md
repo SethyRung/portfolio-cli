@@ -4,11 +4,11 @@
 
 **Blocked by:** 03: Browse Work and open a Role
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] `sethyrung projects` prints the Projects index on stdout and exits 0
-- [ ] Index entries show title, Period, and a one-liner only
-- [ ] `sethyrung projects movies`, `helpdesk`, `angkor-times`, and `nuxt-boilerplate` each print that Project’s detail including Stack
-- [ ] Unknown Projects slug: stderr lists known Project slugs, exit 1
-- [ ] Extra tokens after a Project slug fail the same way
-- [ ] Tests spawn the CLI process only
+- [x] `sethyrung projects` prints the Projects index on stdout and exits 0
+- [x] Index entries show title, Period, and a one-liner only
+- [x] `sethyrung projects movies`, `helpdesk`, `angkor-times`, and `nuxt-boilerplate` each print that Project’s detail including Stack
+- [x] Unknown Projects slug: stderr lists known Project slugs, exit 1
+- [x] Extra tokens after a Project slug fail the same way
+- [x] Tests spawn the CLI process only

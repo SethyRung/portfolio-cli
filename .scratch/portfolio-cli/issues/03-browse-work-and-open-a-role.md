@@ -4,11 +4,11 @@
 
 **Blocked by:** 02: Open the About Screen
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] `sethyrung work` prints the Work index on stdout and exits 0
-- [ ] Index entries show title, Period, and a one-liner only
-- [ ] `sethyrung work ttgreen`, `ycbp`, and `self-employed` each print that Role’s detail including Stack
-- [ ] Unknown Work slug: stderr lists known Role slugs, exit 1
-- [ ] Extra tokens after a Role slug fail the same way
-- [ ] Tests spawn the CLI process only
+- [x] `sethyrung work` prints the Work index on stdout and exits 0
+- [x] Index entries show title, Period, and a one-liner only
+- [x] `sethyrung work ttgreen`, `ycbp`, and `self-employed` each print that Role’s detail including Stack
+- [x] Unknown Work slug: stderr lists known Role slugs, exit 1
+- [x] Extra tokens after a Role slug fail the same way
+- [x] Tests spawn the CLI process only
