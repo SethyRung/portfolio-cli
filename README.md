@@ -1,6 +1,6 @@
-# sethyrung
+# @sethyrung/portfolio
 
-Terminal portfolio for [Sethy Rung](https://sethyrung.com): a Dev Card by default, other Screens on demand.
+[Sethy Rung](https://sethyrung.com)'s terminal portfolio. No arguments prints the Dev Card. A Screen name prints that Screen.
 
 ## Run
 
@@ -14,17 +14,40 @@ Node without Bun:
 npx @sethyrung/portfolio
 ```
 
-No arguments prints the Dev Card. A Screen name prints that Screen:
+## Screens
+
+| Command                                     | Screen                                |
+| ------------------------------------------- | ------------------------------------- |
+| `bunx @sethyrung/portfolio`                 | Dev Card — name, Tagline, links, Hint |
+| `bunx @sethyrung/portfolio about`           | About — bio                           |
+| `bunx @sethyrung/portfolio work`            | Work — Role index                     |
+| `bunx @sethyrung/portfolio work <slug>`     | One Role                              |
+| `bunx @sethyrung/portfolio projects`        | Projects — Project index              |
+| `bunx @sethyrung/portfolio projects <slug>` | One Project                           |
+
+Role slugs: `ttgreen`, `ycbp`, `self-employed`.
+
+Project slugs: `movies`, `helpdesk`, `angkor-times`, `nuxt-boilerplate`.
 
 ```sh
-bunx @sethyrung/portfolio about
-bunx @sethyrung/portfolio work
 bunx @sethyrung/portfolio work ttgreen
-bunx @sethyrung/portfolio projects
 bunx @sethyrung/portfolio projects movies
 ```
 
-`-h` / `--help` prints usage. `-v` / `--version` prints the package version. `NO_COLOR` strips ANSI.
+Unknown Screen or slug names the valid options on stderr and exits 1.
+
+## Flags
+
+```sh
+bunx @sethyrung/portfolio -h
+bunx @sethyrung/portfolio --help
+bunx @sethyrung/portfolio -v
+bunx @sethyrung/portfolio --version
+```
+
+`-h` / `--help` prints usage. `-v` / `--version` prints the package version.
+
+`NO_COLOR` strips ANSI. Output always goes to stdout (no pager).
 
 ## Binary
 
@@ -42,9 +65,27 @@ chmod +x sethyrung
 ./sethyrung
 ```
 
-Windows: download `sethyrung-windows-x64.exe` or `sethyrung-windows-arm64.exe` from the latest release.
+Windows: download `sethyrung-windows-x64.exe` or `sethyrung-windows-arm64.exe` from the [latest release](https://github.com/SethyRung/portfolio-cli/releases/latest).
+
+## Content
+
+Screens are Comark markdown in `src/content`. Indexes are written files, not generated.
+
+```
+src/content/
+  card.md
+  about.md
+  work/index.md
+  work/<slug>.md
+  projects/index.md
+  projects/<slug>.md
+```
+
+A new Role or Project appears when you add a markdown file named with its slug next to the index.
 
 ## Develop
+
+Requires [Bun](https://bun.sh/) 1.4 or later.
 
 ```sh
 bun install
@@ -54,4 +95,10 @@ bun run lint
 bun run fmt
 ```
 
-Screens are Comark markdown under `src/content`. Adding a Role or Project is adding a markdown file named with its slug next to the Work or Projects index.
+```sh
+bun bin/cli.js
+bun run build          # Node entry at dist/cli.js
+bun run compile        # local binary named sethyrung
+```
+
+MIT.
