@@ -326,15 +326,33 @@ test("sethyrung projects prints the Projects index on stdout and exits 0", async
   expect(stderr).toBe("");
   const text = visible(stdout);
   expect(text).toContain("Movies");
-  expect(text).toContain("12.2025");
+  expect(text).toContain("12.2025—now");
   expect(text).toContain("Helpdesk");
-  expect(text).toContain("03.2026");
+  expect(text).toContain("03.2026—now");
   expect(text).toContain("The Angkor Times");
-  expect(text).toContain("02.2025");
+  expect(text).toContain("02.2025—now");
   expect(text).toContain("Nuxt Boilerplate");
   expect(text).toContain("discovery");
   expect(text).toContain("ticket");
+  expect(text).toContain("sethyrung projects movies");
+  expect(text).toContain("sethyrung projects helpdesk");
+  expect(text).toContain("sethyrung projects angkor-times");
+  expect(text).toContain("sethyrung projects nuxt-boilerplate");
   expect(text).not.toContain("Keycloak OAuth2");
+});
+
+test("Projects index open commands follow the launcher", async () => {
+  const npx = await runCli(["projects"], {
+    npm_config_user_agent: "npm/10.8.2 node/v22.11.0 linux x64",
+  });
+  expect(npx.exitCode).toBe(0);
+  expect(visible(npx.stdout)).toContain("npx @sethyrung/portfolio projects movies");
+  expect(visible(npx.stdout)).not.toContain("bunx @sethyrung/portfolio");
+
+  const bunx = await runCli(["projects"], { npm_config_user_agent: "bun/1.4.2" });
+  expect(bunx.exitCode).toBe(0);
+  expect(visible(bunx.stdout)).toContain("bunx @sethyrung/portfolio projects helpdesk");
+  expect(visible(bunx.stdout)).not.toContain("npx @sethyrung/portfolio");
 });
 
 test("sethyrung projects <slug> prints that Project including Stack", async () => {

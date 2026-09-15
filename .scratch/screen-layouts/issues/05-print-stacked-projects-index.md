@@ -4,7 +4,7 @@
 
 **Blocked by:** 01: Print the command-first Dev Card
 
-**Status:** ready-for-agent
+**Status:** done
 
 Layout from the prototype:
 
@@ -26,10 +26,10 @@ Starter template to kickstart Nuxt.js web projects.
 npx @sethyrung/portfolio projects nuxt-boilerplate
 ```
 
-- [ ] `projects` prints the Projects index on stdout and exits 0
-- [ ] Each Project is title, Period, one-liner, then `<bin> projects <project>`
-- [ ] `<bin>` matches the launcher
-- [ ] Open Periods render as `start—now`
-- [ ] `projects movies` / `helpdesk` / `angkor-times` / `nuxt-boilerplate` still open that Project
-- [ ] Unknown Project or extra tokens still fail with known Project names
-- [ ] Tests spawn the CLI process only (S1)
+- [x] `projects` prints the Projects index on stdout and exits 0
+- [x] Each Project is title, Period, one-liner, then `<bin> projects <project>`
+- [x] `<bin>` matches the launcher
+- [x] Open Periods render as `start—now`
+- [x] `projects movies` / `helpdesk` / `angkor-times` / `nuxt-boilerplate` still open that Project
+- [x] Unknown Project or extra tokens still fail with known Project names
+- [x] Tests spawn the CLI process only (S1)
