@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dev Card — command-first</title>
+    <style>
+      :root {
+        --crust: #11111b;
+        --mantle: #181825;
+        --base: #1e1e2e;
+        --surface: #313244;
+        --overlay: #6c7086;
+        --subtext: #a6adc8;
+        --text: #cdd6f4;
+        --mauve: #cba6f7;
+        --blue: #89b4fa;
+        --teal: #94e2d5;
+        --peach: #fab387;
+        --green: #a6e3a1;
+        --red: #f38ba8;
+        --yellow: #f9e2af;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: radial-gradient(1200px 600px at 50% -10%, #1e1e2e 0%, var(--crust) 55%);
+        color: var(--text);
+        font:
+          14px/1.45 "JetBrains Mono",
+          "Cascadia Code",
+          "Fira Code",
+          ui-monospace,
+          monospace;
+      }
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      .assumption {
+        color: var(--subtext);
+        font-size: 12px;
+        margin: 0 0 18px;
+      }
+      .term {
+        background: var(--base);
+        border: 1px solid var(--surface);
+        border-radius: 12px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+      .term-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: var(--mantle);
+        border-bottom: 1px solid var(--surface);
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot.r {
+        background: var(--red);
+      }
+      .dot.y {
+        background: var(--yellow);
+      }
+      .dot.g {
+        background: var(--green);
+      }
+      .term-bar .title {
+        flex: 1;
+        text-align: center;
+        color: var(--overlay);
+        font-size: 12px;
+      }
+      .term-body {
+        padding: 18px 20px 22px;
+        overflow-x: auto;
+      }
+      .prompt {
+        color: var(--overlay);
+        margin-bottom: 14px;
+      }
+      .prompt .ps {
+        color: var(--green);
+      }
+      pre.card {
+        margin: 0;
+        font: inherit;
+        white-space: pre;
+        color: var(--text);
+      }
+      .name {
+        color: var(--mauve);
+        font-weight: 700;
+      }
+      .tagline {
+        color: var(--teal);
+      }
+      .cmd,
+      .slug {
+        color: var(--blue);
+      }
+      .url {
+        color: var(--overlay);
+      }
+      .label {
+        color: var(--subtext);
+      }
+      .period {
+        color: var(--peach);
+      }
+      .ok {
+        color: var(--green);
+      }
+      #launchers {
+        display: flex;
+        gap: 8px;
+        margin: 0 0 16px;
+      }
+      #launchers button {
+        font: inherit;
+        font-size: 12px;
+        color: var(--subtext);
+        background: var(--mantle);
+        border: 1px solid var(--surface);
+        border-radius: 999px;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      #launchers button.active {
+        color: var(--crust);
+        background: var(--green);
+        border-color: var(--green);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <p class="assumption">
+        USAGE follows the launcher: <code>npx</code> / <code>bunx</code> / compiled
+        <code>sethyrung</code>. Detected at runtime, not hardcoded.
+      </p>
+      <div id="launchers"></div>
+      <div class="term">
+        <div class="term-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title" id="title"></span>
+        </div>
+        <div class="term-body">
+          <div class="prompt"><span class="ps">$</span> <span id="prompt"></span></div>
+          <pre class="card" id="card"></pre>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Command-first Dev Card. USAGE bin is the detected launcher.
+      const PKG = "@sethyrung/portfolio";
+      const LAUNCHERS = {
+        npx: { label: "npx", bin: `npx ${PKG}` },
+        bunx: { label: "bunx", bin: `bunx ${PKG}` },
+        binary: { label: "binary", bin: "sethyrung" },
+      };
+      const DATA = {
+        name: "Sethy Rung",
+        tagline: "Full Stack Developer",
+        links: [
+          { label: "Site", url: "https://sethyrung.com" },
+          { label: "GitHub", url: "https://github.com/sethyrung" },
+          { label: "Email", url: "rungsethyhk@gmail.com" },
+        ],
+        work: [
+          { title: "TTGreen", start: "03.2025", end: null, slug: "ttgreen" },
+          { title: "Young Credit Bureau Program", start: "11.2023", end: "12.2024", slug: "ycbp" },
+          { title: "Self-employed", start: "01.2024", end: null, slug: "self-employed" },
+        ],
+        projects: [
+          { title: "Movies", start: "12.2025", end: null, slug: "movies" },
+          { title: "Helpdesk", start: "03.2026", end: null, slug: "helpdesk" },
+          { title: "The Angkor Times", start: "02.2025", end: null, slug: "angkor-times" },
+          { title: "Nuxt Boilerplate", start: "02.2025", end: null, slug: "nuxt-boilerplate" },
+        ],
+      };
+
+      function esc(s) {
+        return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+      }
+      function vis(s) {
+        return String(s).replace(/<[^>]+>/g, "").length;
+      }
+      function pad(s, n) {
+        const v = vis(s);
+        if (v >= n) return s;
+        return s + " ".repeat(n - v);
+      }
+      function S(cls, s) {
+        return `<span class="${cls}">${esc(s)}</span>`;
+      }
+      function period(it) {
+        return `${it.start}—${it.end ?? "now"}`;
+      }
+      function rec(it) {
+        return (
+          "       " + pad(S("slug", it.slug), 18) + pad(it.title, 32) + S("period", period(it))
+        );
+      }
+      function slugs(items) {
+        return items.map((it) => S("slug", it.slug)).join(" | ");
+      }
+
+      function currentLauncher() {
+        const raw = new URLSearchParams(location.search).get("bin") ?? "npx";
+        return raw in LAUNCHERS ? raw : "npx";
+      }
+
+      function setLauncher(key) {
+        const url = new URL(location.href);
+        url.searchParams.set("bin", key);
+        history.replaceState(null, "", url);
+        paint();
+      }
+
+      function paint() {
+        const key = currentLauncher();
+        const bin = LAUNCHERS[key].bin;
+        document.getElementById("title").textContent = bin;
+        document.getElementById("prompt").textContent = bin;
+        document.getElementById("card").innerHTML = [
+          S("ok", "NAME"),
+          "       " + S("name", DATA.name) + " — " + S("tagline", DATA.tagline),
+          "",
+          S("ok", "USAGE"),
+          "       " + S("cmd", bin),
+          "       " + S("cmd", bin + " about"),
+          "       " + S("cmd", bin + " work") + " [" + slugs(DATA.work) + "]",
+          "       " + S("cmd", bin + " projects") + " [" + slugs(DATA.projects) + "]",
+          "",
+          S("ok", "LINKS"),
+          ...DATA.links.map((l) => "       " + pad(S("label", l.label), 10) + S("url", l.url)),
+          "",
+          S("ok", "WORK"),
+          ...DATA.work.map(rec),
+          "",
+          S("ok", "PROJECTS"),
+          ...DATA.projects.map(rec),
+        ].join("\n");
+        document.querySelectorAll("#launchers button").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.bin === key);
+        });
+      }
+
+      const bar = document.getElementById("launchers");
+      for (const [key, value] of Object.entries(LAUNCHERS)) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.bin = key;
+        btn.textContent = value.bin;
+        btn.onclick = () => setLauncher(key);
+        bar.append(btn);
+      }
+      paint();
+    </script>
+  </body>
+</html>

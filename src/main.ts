@@ -5,17 +5,17 @@ import { renderAnsi } from "@comark/ansi";
 import pkg from "../package.json" with { type: "json" };
 import { identity, links, project, role, stack } from "./components.ts";
 
-const USAGE = `Usage: sethyrung [screen] [slug]
+const USAGE = `Usage: sethyrung [command]
 
-Screens:
-  (none)              Dev Card
-  about               Bio
-  work [slug]         Work index, or a Role
-  projects [slug]     Projects index, or a Project
+Commands:
+  (none)                 Dev Card
+  about                  Bio
+  work [role]            Work index, or a Role
+  projects [project]     Projects index, or a Project
 
 Flags:
-  -h, --help          Show usage
-  -v, --version       Show version
+  -h, --help             Show usage
+  -v, --version          Show version
 `;
 
 function resolveContentDir(): string {

@@ -90,8 +90,8 @@ test("-h and --help print usage including Screen names and exit 0", async () => 
     expect(text).toContain("about");
     expect(text).toContain("work");
     expect(text).toContain("projects");
-    expect(text).toMatch(/work .+slug/i);
-    expect(text).toMatch(/projects .+slug/i);
+    expect(text).toMatch(/work .+role/i);
+    expect(text).toMatch(/projects .+project/i);
   }
 });
 

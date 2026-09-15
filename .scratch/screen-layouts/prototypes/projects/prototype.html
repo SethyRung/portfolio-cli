@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projects — stacked entries</title>
+    <style>
+      :root {
+        --crust: #11111b;
+        --mantle: #181825;
+        --base: #1e1e2e;
+        --surface: #313244;
+        --overlay: #6c7086;
+        --subtext: #a6adc8;
+        --text: #cdd6f4;
+        --mauve: #cba6f7;
+        --blue: #89b4fa;
+        --peach: #fab387;
+        --green: #a6e3a1;
+        --red: #f38ba8;
+        --yellow: #f9e2af;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: radial-gradient(1200px 600px at 50% -10%, #1e1e2e 0%, var(--crust) 55%);
+        color: var(--text);
+        font:
+          14px/1.45 "JetBrains Mono",
+          "Cascadia Code",
+          "Fira Code",
+          ui-monospace,
+          monospace;
+      }
+      .page {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 20px 48px;
+      }
+      .assumption {
+        color: var(--subtext);
+        font-size: 12px;
+        margin: 0 0 18px;
+      }
+      .term {
+        background: var(--base);
+        border: 1px solid var(--surface);
+        border-radius: 12px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+        overflow: hidden;
+      }
+      .term-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        background: var(--mantle);
+        border-bottom: 1px solid var(--surface);
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot.r {
+        background: var(--red);
+      }
+      .dot.y {
+        background: var(--yellow);
+      }
+      .dot.g {
+        background: var(--green);
+      }
+      .term-bar .title {
+        flex: 1;
+        text-align: center;
+        color: var(--overlay);
+        font-size: 12px;
+      }
+      .term-body {
+        padding: 18px 20px 22px;
+        overflow-x: auto;
+      }
+      .prompt {
+        color: var(--overlay);
+        margin-bottom: 14px;
+      }
+      .prompt .ps {
+        color: var(--green);
+      }
+      pre.card {
+        margin: 0;
+        font: inherit;
+        white-space: pre;
+        color: var(--text);
+      }
+      .heading {
+        color: var(--mauve);
+        font-weight: 700;
+      }
+      .period {
+        color: var(--peach);
+      }
+      .cmd {
+        color: var(--blue);
+      }
+      #launchers {
+        display: flex;
+        gap: 8px;
+        margin: 0 0 16px;
+      }
+      #launchers button {
+        font: inherit;
+        font-size: 12px;
+        color: var(--subtext);
+        background: var(--mantle);
+        border: 1px solid var(--surface);
+        border-radius: 999px;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      #launchers button.active {
+        color: var(--crust);
+        background: var(--green);
+        border-color: var(--green);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <p class="assumption">
+        Stacked Projects index — same as Work. Each Project carries the command that opens it.
+      </p>
+      <div id="launchers"></div>
+      <div class="term">
+        <div class="term-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span class="title" id="title"></span>
+        </div>
+        <div class="term-body">
+          <div class="prompt"><span class="ps">$</span> <span id="prompt"></span></div>
+          <pre class="card" id="card"></pre>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Stacked Projects index. Same pattern as Work. Open periods end in now.
+      const PKG = "@sethyrung/portfolio";
+      const LAUNCHERS = {
+        npx: `npx ${PKG}`,
+        bunx: `bunx ${PKG}`,
+        binary: "sethyrung",
+      };
+      const PROJECTS = [
+        {
+          project: "movies",
+          title: "Movies",
+          start: "12.2025",
+          end: null,
+          note: "Movie and TV series discovery with search, browsing, and detail views.",
+        },
+        {
+          project: "helpdesk",
+          title: "Helpdesk",
+          start: "03.2026",
+          end: null,
+          note: "Role-based ticket management with Keycloak authentication.",
+        },
+        {
+          project: "angkor-times",
+          title: "The Angkor Times",
+          start: "02.2025",
+          end: null,
+          note: "News site with author publishing, admin approval, and SSR pagination.",
+        },
+        {
+          project: "nuxt-boilerplate",
+          title: "Nuxt Boilerplate",
+          start: "02.2025",
+          end: null,
+          note: "Starter template to kickstart Nuxt.js web projects.",
+        },
+      ];
+
+      function esc(s) {
+        return String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+      }
+      function S(cls, s) {
+        return `<span class="${cls}">${esc(s)}</span>`;
+      }
+      function period(it) {
+        return `${it.start}—${it.end ?? "now"}`;
+      }
+
+      function currentLauncher() {
+        const raw = new URLSearchParams(location.search).get("bin") ?? "npx";
+        return raw in LAUNCHERS ? raw : "npx";
+      }
+
+      function setLauncher(key) {
+        const url = new URL(location.href);
+        url.searchParams.set("bin", key);
+        history.replaceState(null, "", url);
+        paint();
+      }
+
+      function paint() {
+        const key = currentLauncher();
+        const bin = LAUNCHERS[key];
+        const invoke = `${bin} projects`;
+        document.getElementById("title").textContent = invoke;
+        document.getElementById("prompt").textContent = invoke;
+        document.getElementById("card").innerHTML = PROJECTS.flatMap((it, i) => [
+          S("heading", it.title) + "  " + S("period", period(it)),
+          it.note,
+          S("cmd", `${bin} projects ${it.project}`),
+          ...(i < PROJECTS.length - 1 ? [""] : []),
+        ]).join("\n");
+        document.querySelectorAll("#launchers button").forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.bin === key);
+        });
+      }
+
+      const bar = document.getElementById("launchers");
+      for (const [key, bin] of Object.entries(LAUNCHERS)) {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.dataset.bin = key;
+        btn.textContent = bin;
+        btn.onclick = () => setLauncher(key);
+        bar.append(btn);
+      }
+      paint();
+    </script>
+  </body>
+</html>
