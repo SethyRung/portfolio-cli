@@ -72,7 +72,7 @@ test("Dev Card USAGE and catalogs list Screens, Roles, and Projects", async () =
   expect(text).toContain("sethyrung about");
   expect(text).toContain("sethyrung work [ttgreen | ycbp | self-employed]");
   expect(text).toContain(
-    "sethyrung projects [movies | helpdesk | angkor-times | nuxt-boilerplate]",
+    "sethyrung projects [dotfiles | tracker | recall | movies | helpdesk | angkor-times | nuxt-boilerplate | flutter-docs | asset-management | chongkran | movie-website | mart-management | easypay | glitch]",
   );
   expect(text).toContain("TTGreen");
   expect(text).toContain("03.2025—now");
@@ -94,6 +94,13 @@ test("Dev Card USAGE and catalogs list Screens, Roles, and Projects", async () =
   expect(text).toContain("angkor-times");
   expect(text).toContain("Nuxt Boilerplate");
   expect(text).toContain("nuxt-boilerplate");
+  expect(text).toContain("Dotfiles");
+  expect(text).toContain("dotfiles");
+  expect(text).toContain("Tracker");
+  expect(text).toContain("Recall");
+  expect(text).toContain("Glitch");
+  expect(text).toContain("08.2024—12.2025");
+  expect(text).toContain("10.2023—01.2024");
   expect(text).not.toContain("--help");
   expect(text).not.toContain("mailto:");
 });
@@ -325,6 +332,9 @@ test("sethyrung projects prints the Projects index on stdout and exits 0", async
   expect(exitCode).toBe(0);
   expect(stderr).toBe("");
   const text = visible(stdout);
+  expect(text).toContain("Dotfiles");
+  expect(text).toContain("Tracker");
+  expect(text).toContain("Recall");
   expect(text).toContain("Movies");
   expect(text).toContain("12.2025—now");
   expect(text).toContain("Helpdesk");
@@ -332,13 +342,24 @@ test("sethyrung projects prints the Projects index on stdout and exits 0", async
   expect(text).toContain("The Angkor Times");
   expect(text).toContain("02.2025—now");
   expect(text).toContain("Nuxt Boilerplate");
+  expect(text).toContain("Flutter Docs");
+  expect(text).toContain("Asset Management");
+  expect(text).toContain("Chongkran");
+  expect(text).toContain("Movie Website");
+  expect(text).toContain("08.2024—12.2025");
+  expect(text).toContain("Mart Management System");
+  expect(text).toContain("10.2023—01.2024");
+  expect(text).toContain("EasyPay");
+  expect(text).toContain("Glitch");
   expect(text).toContain("discovery");
   expect(text).toContain("ticket");
   expect(text).toContain("sethyrung projects movies");
   expect(text).toContain("sethyrung projects helpdesk");
   expect(text).toContain("sethyrung projects angkor-times");
   expect(text).toContain("sethyrung projects nuxt-boilerplate");
-  expect(text).not.toContain("Keycloak OAuth2");
+  expect(text).toContain("sethyrung projects dotfiles");
+  expect(text).toContain("sethyrung projects glitch");
+  expect(text).not.toContain("github.com");
 });
 
 test("Projects index open commands follow the launcher", async () => {
@@ -384,16 +405,25 @@ test("sethyrung projects <slug> prints that Project including Stack", async () =
   const boilerplateText = visible(boilerplate.stdout);
   expect(boilerplateText).toContain("Nuxt Boilerplate");
   expect(boilerplateText).toContain("TypeScript");
+
+  const tracker = await runCli(["projects", "tracker"]);
+  expect(tracker.exitCode).toBe(0);
+  const trackerText = visible(tracker.stdout);
+  expect(trackerText).toContain("Tracker");
+  expect(trackerText).toContain("Drizzle");
+  expect(trackerText).toContain("https://tracker.sethyrung.com");
 });
 
 test("unknown Projects slug lists known Project slugs on stderr and exits 1", async () => {
-  const { stdout, stderr, exitCode } = await runCli(["projects", "glitch"]);
+  const { stdout, stderr, exitCode } = await runCli(["projects", "innoblock"]);
   expect(exitCode).toBe(1);
   expect(stdout).toBe("");
   expect(stderr).toContain("movies");
   expect(stderr).toContain("helpdesk");
   expect(stderr).toContain("angkor-times");
   expect(stderr).toContain("nuxt-boilerplate");
+  expect(stderr).toContain("dotfiles");
+  expect(stderr).toContain("glitch");
 });
 
 test("extra tokens after a Project slug fail the same way", async () => {

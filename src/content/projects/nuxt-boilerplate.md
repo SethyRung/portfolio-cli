@@ -1,5 +1,5 @@
 ::project{title="Nuxt Boilerplate" period="02.2025"}
-A pre-configured Nuxt.js boilerplate — a starter template designed to kickstart web development projects with Nuxt.js.
+Starter template pre-configured for modern web apps with Nuxt 4 and Tailwind.
 
 [Repo](https://github.com/SethyRung/Nuxt-Boilerplate)
 

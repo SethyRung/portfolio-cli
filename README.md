@@ -27,7 +27,7 @@ npx @sethyrung/portfolio
 
 Role slugs: `ttgreen`, `ycbp`, `self-employed`.
 
-Project slugs: `movies`, `helpdesk`, `angkor-times`, `nuxt-boilerplate`.
+Project slugs: `dotfiles`, `tracker`, `recall`, `movies`, `helpdesk`, `angkor-times`, `nuxt-boilerplate`, `flutter-docs`, `asset-management`, `chongkran`, `movie-website`, `mart-management`, `easypay`, `glitch`.
 
 ```sh
 bunx @sethyrung/portfolio work ttgreen
