@@ -3,7 +3,16 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderAnsi } from "@comark/ansi";
 import pkg from "../package.json" with { type: "json" };
-import { identity, links, project, role, stack } from "./components.ts";
+import { catalog, identity, links, project, role, stack, usage } from "./components.ts";
+
+const PACKAGE = "@sethyrung/portfolio";
+
+function launcherBin(): string {
+  const ua = process.env.npm_config_user_agent ?? "";
+  if (ua.startsWith("npm/")) return `npx ${PACKAGE}`;
+  if (ua.startsWith("bun/")) return `bunx ${PACKAGE}`;
+  return "sethyrung";
+}
 
 const USAGE = `Usage: sethyrung [command]
 
@@ -41,7 +50,8 @@ async function printScreen(relativePath: string): Promise<void> {
   const markdown = readFileSync(join(contentDir, relativePath), "utf8");
   const output = await renderAnsi(markdown, {
     width,
-    components: { identity, links, project, role, stack },
+    components: { catalog, identity, links, project, role, stack, usage },
+    data: { bin: launcherBin() },
   });
   process.stdout.write(output);
 }

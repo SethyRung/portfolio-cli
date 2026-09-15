@@ -8,6 +8,9 @@ async function runCli(
   env: Record<string, string | undefined> = {},
 ): Promise<{ stdout: string; stderr: string; exitCode: number }> {
   const spawnedEnv = { ...process.env, ...env };
+  if (!("npm_config_user_agent" in env)) delete spawnedEnv.npm_config_user_agent;
+  if (!("npm_command" in env)) delete spawnedEnv.npm_command;
+  if (!("npm_execpath" in env)) delete spawnedEnv.npm_execpath;
   for (const [key, value] of Object.entries(env)) {
     if (value === undefined) delete spawnedEnv[key];
   }
@@ -36,12 +39,24 @@ test("sethyrung with no arguments prints the Dev Card on stdout and exits 0", as
   expect(visible(stdout)).toContain("Sethy Rung");
 });
 
+test("Dev Card sections are NAME, USAGE, LINKS, WORK, PROJECTS with no man-page header", async () => {
+  const { stdout, stderr, exitCode } = await runCli();
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe("");
+  const text = visible(stdout);
+  expect(text).toContain("NAME");
+  expect(text).toContain("USAGE");
+  expect(text).toContain("LINKS");
+  expect(text).toContain("WORK");
+  expect(text).toContain("PROJECTS");
+  expect(text).not.toContain("sethyrung(1)");
+});
+
 test("Dev Card shows name, Tagline, and follow-up links", async () => {
   const { stdout, exitCode } = await runCli();
   expect(exitCode).toBe(0);
   const text = visible(stdout);
-  expect(text).toContain("Sethy Rung");
-  expect(text).toContain("Full Stack Developer");
+  expect(text).toContain("Sethy Rung — Full Stack Developer");
   expect(text).toContain("https://sethyrung.com");
   expect(text).toContain("https://github.com/sethyrung");
   expect(text).toContain("rungsethyhk@gmail.com");
@@ -50,34 +65,66 @@ test("Dev Card shows name, Tagline, and follow-up links", async () => {
   expect(text).not.toContain("InnoBlock");
 });
 
-test("Dev Card Hint maps Screens and lists Roles and Projects", async () => {
+test("Dev Card USAGE and catalogs list Screens, Roles, and Projects", async () => {
   const { stdout, exitCode } = await runCli();
   expect(exitCode).toBe(0);
   const text = visible(stdout);
   expect(text).toContain("sethyrung about");
-  expect(text).toContain("sethyrung work");
-  expect(text).toContain("sethyrung projects");
+  expect(text).toContain("sethyrung work [ttgreen | ycbp | self-employed]");
+  expect(text).toContain(
+    "sethyrung projects [movies | helpdesk | angkor-times | nuxt-boilerplate]",
+  );
   expect(text).toContain("TTGreen");
-  expect(text).toContain("03.2025—");
+  expect(text).toContain("03.2025—now");
   expect(text).toContain("ttgreen");
   expect(text).toContain("Young Credit Bureau Program");
   expect(text).toContain("11.2023—12.2024");
   expect(text).toContain("ycbp");
   expect(text).toContain("Self-employed");
-  expect(text).toContain("01.2024—");
+  expect(text).toContain("01.2024—now");
   expect(text).toContain("self-employed");
   expect(text).toContain("Movies");
-  expect(text).toContain("12.2025");
+  expect(text).toContain("12.2025—now");
   expect(text).toContain("movies");
   expect(text).toContain("Helpdesk");
-  expect(text).toContain("03.2026");
+  expect(text).toContain("03.2026—now");
   expect(text).toContain("helpdesk");
   expect(text).toContain("The Angkor Times");
-  expect(text).toContain("02.2025");
+  expect(text).toContain("02.2025—now");
   expect(text).toContain("angkor-times");
   expect(text).toContain("Nuxt Boilerplate");
   expect(text).toContain("nuxt-boilerplate");
   expect(text).not.toContain("--help");
+  expect(text).not.toContain("mailto:");
+});
+
+test("USAGE uses npx @sethyrung/portfolio when launched via npx", async () => {
+  const { stdout, exitCode } = await runCli([], {
+    npm_config_user_agent: "npm/10.8.2 node/v22.11.0 linux x64",
+  });
+  expect(exitCode).toBe(0);
+  const text = visible(stdout);
+  expect(text).toContain("npx @sethyrung/portfolio about");
+  expect(text).not.toContain("bunx @sethyrung/portfolio");
+});
+
+test("USAGE uses bunx @sethyrung/portfolio when launched via bunx", async () => {
+  const { stdout, exitCode } = await runCli([], {
+    npm_config_user_agent: "bun/1.4.2",
+  });
+  expect(exitCode).toBe(0);
+  const text = visible(stdout);
+  expect(text).toContain("bunx @sethyrung/portfolio about");
+  expect(text).not.toContain("npx @sethyrung/portfolio");
+});
+
+test("USAGE uses sethyrung when launched as a compiled binary", async () => {
+  const { stdout, exitCode } = await runCli([], { npm_config_user_agent: undefined });
+  expect(exitCode).toBe(0);
+  const text = visible(stdout);
+  expect(text).toContain("sethyrung about");
+  expect(text).not.toContain("npx @sethyrung/portfolio");
+  expect(text).not.toContain("bunx @sethyrung/portfolio");
 });
 
 test("-h and --help print usage including Screen names and exit 0", async () => {

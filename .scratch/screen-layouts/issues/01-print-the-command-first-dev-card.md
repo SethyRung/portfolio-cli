@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** done
 
 Layout from the prototype:
 
@@ -35,11 +35,11 @@ PROJECTS
        nuxt-boilerplate Nuxt Boilerplate                 02.2025—now
 ```
 
-- [ ] No arguments prints the Dev Card on stdout and exits 0
-- [ ] Sections are NAME, USAGE, LINKS, WORK, PROJECTS — no man-page header
-- [ ] USAGE uses `npx @sethyrung/portfolio` when launched via npx
-- [ ] USAGE uses `bunx @sethyrung/portfolio` when launched via bunx
-- [ ] USAGE uses `sethyrung` when launched as a compiled binary
-- [ ] Open Periods render as `start—now`; closed Periods keep both ends
-- [ ] NAME is identity (name + Tagline), distinct from About; no location, pronouns, or current Role
-- [ ] Tests spawn the CLI process only (S1); stub launcher via env/argv, do not call npx/bunx
+- [x] No arguments prints the Dev Card on stdout and exits 0
+- [x] Sections are NAME, USAGE, LINKS, WORK, PROJECTS — no man-page header
+- [x] USAGE uses `npx @sethyrung/portfolio` when launched via npx
+- [x] USAGE uses `bunx @sethyrung/portfolio` when launched via bunx
+- [x] USAGE uses `sethyrung` when launched as a compiled binary
+- [x] Open Periods render as `start—now`; closed Periods keep both ends
+- [x] NAME is identity (name + Tagline), distinct from About; no location, pronouns, or current Role
+- [x] Tests spawn the CLI process only (S1); stub launcher via env/argv, do not call npx/bunx
