@@ -13,7 +13,7 @@ A CLI named `sethyrung`. No arguments prints the Dev Card. A Screen name prints 
 1. As a visitor, I want to run `sethyrung` with no arguments, so that I see the Dev Card immediately.
 2. As a visitor, I want the Dev Card to show a name, a Tagline, and links, so that I know who this is in one glance.
 3. As a visitor, I want the Dev Card links to be the site, GitHub, and email, so that I can follow up without hunting.
-3a. As a visitor, I want a Hint under those links that maps `sethyrung about` / `work` / `projects` and lists each Role and Project with Period and slug, so that I can drill in without running `--help` or opening an index first.
+   3a. As a visitor, I want a Hint under those links that maps `sethyrung about` / `work` / `projects` and lists each Role and Project with Period and slug, so that I can drill in without running `--help` or opening an index first.
 4. As a visitor, I want the Dev Card to omit location, pronouns, and the current Role, so that it stays a card and not a mini About.
 5. As a visitor, I want the Tagline on the Dev Card to be distinct from About, so that the Card stays one line and the bio lives elsewhere.
 6. As a visitor, I want to run `sethyrung about`, so that I can read the full bio.

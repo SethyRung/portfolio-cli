@@ -66,6 +66,7 @@ Map custom Svelte components to Comark elements:
 ### Component Resolution Order
 
 Components are resolved by checking these keys in order:
+
 1. `Prose{PascalTag}`, e.g., `ProseH1` for `<h1>` tags
 2. `PascalTag`, e.g., `Alert` for `::alert` components
 3. `tag`, e.g., `alert` for `::alert` components
@@ -199,6 +200,7 @@ Comark components with named slots work in Svelte using the `children` snippet p
 ```markdown
 ::card
 #header
+
 ## Card Title
 
 #default
@@ -371,8 +373,8 @@ const config = {
   compilerOptions: {
     experimental: { async: true },
   },
-}
-export default config
+};
+export default config;
 ```
 
 Usage with `<svelte:boundary>`:

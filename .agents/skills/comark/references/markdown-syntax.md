@@ -22,10 +22,15 @@ Comark supports all standard CommonMark and GitHub Flavored Markdown (GFM) featu
 
 ```markdown
 # Heading 1
+
 ## Heading 2
+
 ### Heading 3
+
 #### Heading 4
+
 ##### Heading 5
+
 ###### Heading 6
 ```
 
@@ -35,8 +40,8 @@ Comark supports all standard CommonMark and GitHub Flavored Markdown (GFM) featu
 
 ```markdown
 **Bold text**
-*Italic text*
-***Bold and italic***
+_Italic text_
+_**Bold and italic**_
 ~~Strikethrough~~
 `Inline code`
 ```
@@ -45,12 +50,14 @@ Comark supports all standard CommonMark and GitHub Flavored Markdown (GFM) featu
 
 ```markdown
 <!-- Unordered lists -->
+
 - Item 1
 - Item 2
   - Nested item
   - Another nested item
 
 <!-- Ordered lists -->
+
 1. First item
 2. Second item
    1. Nested item
@@ -78,8 +85,9 @@ Comark supports all standard CommonMark and GitHub Flavored Markdown (GFM) featu
 
 ```markdown
 ---
-***
-___
+---
+
+---
 ```
 
 ### Line Breaks
@@ -127,7 +135,7 @@ Note: `depth` and `searchDepth` are not automatically processed from frontmatter
 ### Example
 
 ```typescript
-import { parseMarkdown } from 'comark'
+import { parseMarkdown } from "comark";
 
 const content = `---
 title: My Article
@@ -136,10 +144,10 @@ depth: 3
 
 # Introduction
 Content here...
-`
+`;
 
-const result = await parseMarkdown(content)
-console.log(result.frontmatter)
+const result = await parseMarkdown(content);
+console.log(result.frontmatter);
 // { title: 'My Article', depth: 3 }
 ```
 
@@ -165,16 +173,19 @@ Can have **markdown** and other elements
 
 ```markdown
 <!-- Alert component -->
+
 ::alert{type="info"}
 This is an important message!
 ::
 
 <!-- Card component -->
+
 ::card{title="My Card"}
 Card content with **markdown** support
 ::
 
 <!-- Empty component -->
+
 ::divider
 ::
 ```
@@ -185,12 +196,15 @@ Inline components use the `:component-name` syntax:
 
 ```markdown
 <!-- Standalone inline component -->
+
 :icon-check
 
 <!-- Inline component with content -->
+
 :badge[New]{color="blue"}
 
 <!-- Inline component with properties -->
+
 :tooltip{text="Hover text"}
 ```
 
@@ -211,30 +225,37 @@ Components support various property syntaxes:
 ```markdown
 ::component{prop="value"}
 <!-- Standard key-value pair -->
+
 ::
 
 ::component{bool}
 <!-- Boolean property (becomes :bool="true" in AST) -->
+
 ::
 
 ::component{#custom-id}
 <!-- ID attribute -->
+
 ::
 
 ::component{.class-name}
 <!-- CSS class -->
+
 ::
 
 ::component{obj='{"key": "value"}'}
 <!-- Object/JSON value -->
+
 ::
 
 ::component{arr='["item1", "item2"]'}
 <!-- Array/JSON value -->
+
 ::
 
 ::component{multiple="props" bool #id .class}
 <!-- Multiple properties combined -->
+
 ::
 ```
 
@@ -245,6 +266,7 @@ Block components support named slots using the `#slot-name` syntax:
 ```markdown
 ::card
 #header
+
 ## Card Title
 
 #content
@@ -266,26 +288,10 @@ Default slot
     [
       "card",
       {},
-      [
-        "template",
-        { "name": "header" },
-        ["h2", {}, "Card Title"]
-      ],
-      [
-        "template",
-        { "name": "content" },
-        ["p", {}, "This is the main content of the card"]
-      ],
-      [
-        "template",
-        { "name": "footer" },
-        ["p", {}, "Footer text here"]
-      ],
-      [
-        "template",
-        { "name": "default" },
-        ["p", {}, "Default slot"]
-      ]
+      ["template", { "name": "header" }, ["h2", {}, "Card Title"]],
+      ["template", { "name": "content" }, ["p", {}, "This is the main content of the card"]],
+      ["template", { "name": "footer" }, ["p", {}, "Footer text here"]],
+      ["template", { "name": "default" }, ["p", {}, "Default slot"]]
     ]
   ],
   "frontmatter": {},
@@ -311,11 +317,13 @@ hello
 ```
 
 **Without `#default`**: content becomes direct children (auto-unwrapped):
+
 ```json
 ["component", {}, "hello"]
 ```
 
 **With `#default`**: content is wrapped in an explicit template node:
+
 ```json
 ["component", {}, ["template", { "name": "default" }, "hello"]]
 ```
@@ -355,7 +363,7 @@ Comark allows adding custom attributes to native markdown elements using `{...}`
 ### Italic/Emphasis Attributes
 
 ```markdown
-*italic text*{.emphasized}
+_italic text_{.emphasized}
 _italic text_{#custom-id}
 ```
 
@@ -406,7 +414,7 @@ Comark provides advanced code block features with metadata support.
 ````markdown
 ```javascript
 function hello() {
-  console.log("Hello, World!")
+  console.log("Hello, World!");
 }
 ```
 ````
@@ -416,8 +424,8 @@ function hello() {
 ````markdown
 ```typescript
 interface User {
-  name: string
-  age: number
+  name: string;
+  age: number;
 }
 ```
 ````
@@ -426,8 +434,8 @@ interface User {
 
 ````markdown
 ```javascript [server.js]
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 ```
 ````
 
@@ -438,10 +446,10 @@ const app = express()
 ````markdown
 ```javascript {1-3,5}
 function example() {
-  const a = 1  // Lines 1-3 highlighted
-  const b = 2
-  const c = 3
-  return a + b + c  // Line 5 highlighted
+  const a = 1; // Lines 1-3 highlighted
+  const b = 2;
+  const c = 3;
+  return a + b + c; // Line 5 highlighted
 }
 ```
 ````
@@ -458,12 +466,13 @@ function example() {
 ````markdown
 ```javascript {1-3} [utils.ts] meta=value
 function hello() {
-  console.log("Hello")
+  console.log("Hello");
 }
 ```
 ````
 
 **Metadata Order:** Any order is supported:
+
 - `language {highlights} [filename] meta`
 - `language [filename] {highlights} meta`
 - etc.
@@ -471,7 +480,7 @@ function hello() {
 ### Special Characters in Filename
 
 ````markdown
-```typescript [@[...slug\].ts]
+```typescript [@[...slug].ts]
 // Brackets and special chars are supported
 // Backslash escapes special characters
 ```
@@ -499,11 +508,7 @@ No syntax highlighting
         "highlights": [1, 2, 3],
         "meta": "meta=value"
       },
-      [
-        "code",
-        { "class": "language-javascript" },
-        "code content here"
-      ]
+      ["code", { "class": "language-javascript" }, "code content here"]
     ]
   ],
   "frontmatter": {},
@@ -537,11 +542,11 @@ Comark supports GitHub Flavored Markdown task lists:
 ```html
 <ul class="contains-task-list">
   <li class="task-list-item">
-    <input type="checkbox" disabled checked class="task-list-item-checkbox">
+    <input type="checkbox" disabled checked class="task-list-item-checkbox" />
     Completed task
   </li>
   <li class="task-list-item">
-    <input type="checkbox" disabled class="task-list-item-checkbox">
+    <input type="checkbox" disabled class="task-list-item-checkbox" />
     Pending task
   </li>
 </ul>
@@ -565,8 +570,8 @@ Comark supports GitHub Flavored Markdown tables:
 ```markdown
 | Left Aligned | Center Aligned | Right Aligned |
 | :----------- | :------------: | ------------: |
-| Left         | Center         | Right         |
-| Text         | Text           | Text          |
+| Left         |     Center     |         Right |
+| Text         |      Text      |          Text |
 ```
 
 #### Alignment Syntax
@@ -578,10 +583,10 @@ Comark supports GitHub Flavored Markdown tables:
 ### Inline Markdown in Tables
 
 ```markdown
-| Feature      | Status          | Link                    |
-| ------------ | --------------- | ----------------------- |
-| **Bold**     | *Italic*        | [Link](https://example) |
-| `Code`       | ~~Strike~~      | ![Image](img.png)       |
+| Feature  | Status     | Link                    |
+| -------- | ---------- | ----------------------- |
+| **Bold** | _Italic_   | [Link](https://example) |
+| `Code`   | ~~Strike~~ | ![Image](img.png)       |
 ```
 
 ### Varying Column Widths
