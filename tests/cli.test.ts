@@ -127,19 +127,50 @@ test("USAGE uses sethyrung when launched as a compiled binary", async () => {
   expect(text).not.toContain("bunx @sethyrung/portfolio");
 });
 
-test("-h and --help print usage including Screen names and exit 0", async () => {
+test("-h and --help print USAGE, COMMANDS, and FLAGS and exit 0", async () => {
   for (const flag of ["-h", "--help"] as const) {
     const { stdout, stderr, exitCode } = await runCli([flag]);
     expect(exitCode).toBe(0);
     expect(stderr).toBe("");
     const text = visible(stdout);
-    expect(text).toContain("sethyrung");
-    expect(text).toContain("about");
-    expect(text).toContain("work");
-    expect(text).toContain("projects");
-    expect(text).toMatch(/work .+role/i);
-    expect(text).toMatch(/projects .+project/i);
+    expect(text).toContain("USAGE");
+    expect(text).toContain("COMMANDS");
+    expect(text).toContain("FLAGS");
+    expect(text).toContain("sethyrung [command]");
+    expect(text).toContain("work [role]");
+    expect(text).toContain("projects [project]");
+    expect(text).not.toMatch(/\[screen\]/i);
+    expect(text).not.toMatch(/\[slug\]/i);
   }
+});
+
+test("--help USAGE follows the launcher", async () => {
+  const npx = await runCli(["--help"], {
+    npm_config_user_agent: "npm/10.8.2 node/v22.11.0 linux x64",
+  });
+  expect(npx.exitCode).toBe(0);
+  expect(visible(npx.stdout)).toContain("npx @sethyrung/portfolio [command]");
+  expect(visible(npx.stdout)).not.toContain("bunx @sethyrung/portfolio");
+
+  const bunx = await runCli(["--help"], { npm_config_user_agent: "bun/1.4.2" });
+  expect(bunx.exitCode).toBe(0);
+  expect(visible(bunx.stdout)).toContain("bunx @sethyrung/portfolio [command]");
+  expect(visible(bunx.stdout)).not.toContain("npx @sethyrung/portfolio");
+
+  const binary = await runCli(["--help"], { npm_config_user_agent: undefined });
+  expect(binary.exitCode).toBe(0);
+  expect(visible(binary.stdout)).toContain("sethyrung [command]");
+  expect(visible(binary.stdout)).not.toContain("npx @sethyrung/portfolio");
+  expect(visible(binary.stdout)).not.toContain("bunx @sethyrung/portfolio");
+});
+
+test("help is not a Screen", async () => {
+  const { stdout, stderr, exitCode } = await runCli(["help"]);
+  expect(exitCode).toBe(1);
+  expect(stdout).toBe("");
+  expect(stderr).toContain('Unknown screen "help"');
+  expect(stderr).toContain("about, work, projects");
+  expect(stderr).not.toMatch(/Known screens:.*\bhelp\b/);
 });
 
 test("-v and --version print the package version and exit 0", async () => {

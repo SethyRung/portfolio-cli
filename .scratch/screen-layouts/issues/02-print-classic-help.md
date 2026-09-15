@@ -4,7 +4,7 @@
 
 **Blocked by:** 01: Print the command-first Dev Card
 
-**Status:** ready-for-agent
+**Status:** done
 
 Layout from the prototype:
 
@@ -23,9 +23,9 @@ FLAGS
   -v, --version            Show version
 ```
 
-- [ ] `-h` and `--help` print usage on stdout and exit 0
-- [ ] Sections are USAGE, COMMANDS, FLAGS
-- [ ] USAGE is `<bin> [command]`; COMMANDS list `work [role]` and `projects [project]`
-- [ ] `<bin>` matches the launcher (npx package, bunx package, or `sethyrung`)
-- [ ] `help` is not a Screen; unknown `help` as a command still fails
-- [ ] Tests spawn the CLI process only (S1)
+- [x] `-h` and `--help` print usage on stdout and exit 0
+- [x] Sections are USAGE, COMMANDS, FLAGS
+- [x] USAGE is `<bin> [command]`; COMMANDS list `work [role]` and `projects [project]`
+- [x] `<bin>` matches the launcher (npx package, bunx package, or `sethyrung`)
+- [x] `help` is not a Screen; unknown `help` as a command still fails
+- [x] Tests spawn the CLI process only (S1)

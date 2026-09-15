@@ -14,18 +14,29 @@ function launcherBin(): string {
   return "sethyrung";
 }
 
-const USAGE = `Usage: sethyrung [command]
+function pad(text: string, width: number): string {
+  return text.length >= width ? text : `${text}${" ".repeat(width - text.length)}`;
+}
 
-Commands:
-  (none)                 Dev Card
-  about                  Bio
-  work [role]            Work index, or a Role
-  projects [project]     Projects index, or a Project
-
-Flags:
-  -h, --help             Show usage
-  -v, --version          Show version
-`;
+function helpText(): string {
+  const bin = launcherBin();
+  const row = (argv: string, meaning: string) => `  ${pad(argv, 24)}${meaning}`;
+  return [
+    "USAGE",
+    `  ${bin} [command]`,
+    "",
+    "COMMANDS",
+    row("(none)", "Dev Card"),
+    row("about", "Bio"),
+    row("work [role]", "Work index, or a Role"),
+    row("projects [project]", "Projects index, or a Project"),
+    "",
+    "FLAGS",
+    row("-h, --help", "Show usage"),
+    row("-v, --version", "Show version"),
+    "",
+  ].join("\n");
+}
 
 function resolveContentDir(): string {
   const here = dirname(fileURLToPath(import.meta.url));
@@ -59,7 +70,7 @@ async function printScreen(relativePath: string): Promise<void> {
 const argv = process.argv.slice(2);
 const flag = argv[0];
 if (flag === "-h" || flag === "--help") {
-  process.stdout.write(USAGE);
+  process.stdout.write(helpText());
   process.exit(0);
 }
 if (flag === "-v" || flag === "--version") {
