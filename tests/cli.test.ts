@@ -246,16 +246,33 @@ test("sethyrung work prints the Work index on stdout and exits 0", async () => {
   expect(stderr).toBe("");
   const text = visible(stdout);
   expect(text).toContain("TTGreen");
-  expect(text).toContain("03.2025—");
+  expect(text).toContain("03.2025—now");
   expect(text).toContain("Young Credit Bureau Program");
   expect(text).toContain("11.2023—12.2024");
   expect(text).toContain("Self-employed");
-  expect(text).toContain("01.2024—");
+  expect(text).toContain("01.2024—now");
   expect(text).toContain("carbon management");
   expect(text).toContain("credit bureau");
   expect(text).toContain("full-stack");
+  expect(text).toContain("sethyrung work ttgreen");
+  expect(text).toContain("sethyrung work ycbp");
+  expect(text).toContain("sethyrung work self-employed");
   expect(text).not.toContain("TTGreenButton");
   expect(text).not.toContain("PE Agent");
+});
+
+test("Work index open commands follow the launcher", async () => {
+  const npx = await runCli(["work"], {
+    npm_config_user_agent: "npm/10.8.2 node/v22.11.0 linux x64",
+  });
+  expect(npx.exitCode).toBe(0);
+  expect(visible(npx.stdout)).toContain("npx @sethyrung/portfolio work ttgreen");
+  expect(visible(npx.stdout)).not.toContain("bunx @sethyrung/portfolio");
+
+  const bunx = await runCli(["work"], { npm_config_user_agent: "bun/1.4.2" });
+  expect(bunx.exitCode).toBe(0);
+  expect(visible(bunx.stdout)).toContain("bunx @sethyrung/portfolio work ycbp");
+  expect(visible(bunx.stdout)).not.toContain("npx @sethyrung/portfolio");
 });
 
 test("sethyrung work <slug> prints that Role including Stack", async () => {

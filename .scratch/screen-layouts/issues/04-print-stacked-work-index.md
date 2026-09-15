@@ -4,7 +4,7 @@
 
 **Blocked by:** 01: Print the command-first Dev Card
 
-**Status:** ready-for-agent
+**Status:** done
 
 Layout from the prototype:
 
@@ -22,10 +22,10 @@ Independent full-stack applications across web, CMS, and APIs.
 npx @sethyrung/portfolio work self-employed
 ```
 
-- [ ] `work` prints the Work index on stdout and exits 0
-- [ ] Each Role is title, Period, one-liner, then `<bin> work <role>`
-- [ ] `<bin>` matches the launcher
-- [ ] Open Periods render as `start—now`
-- [ ] `work ttgreen` / `ycbp` / `self-employed` still open that Role
-- [ ] Unknown Role or extra tokens still fail with known Role names
-- [ ] Tests spawn the CLI process only (S1)
+- [x] `work` prints the Work index on stdout and exits 0
+- [x] Each Role is title, Period, one-liner, then `<bin> work <role>`
+- [x] `<bin>` matches the launcher
+- [x] Open Periods render as `start—now`
+- [x] `work ttgreen` / `ycbp` / `self-employed` still open that Role
+- [x] Unknown Role or extra tokens still fail with known Role names
+- [x] Tests spawn the CLI process only (S1)

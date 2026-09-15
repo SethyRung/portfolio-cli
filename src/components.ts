@@ -122,21 +122,29 @@ export const fact: NodeHandler = async (node, state) => {
   return `${[first, ...rest].join("\n")}\n`;
 };
 
-const titledPeriod: NodeHandler = async (node, state) => {
-  const title = String(resolveAttribute(node[1], state.renderData, "title") ?? "");
-  const period = displayPeriod(String(resolveAttribute(node[1], state.renderData, "period") ?? ""));
-  const slug = String(resolveAttribute(node[1], state.renderData, "slug") ?? "");
-  const colors = Boolean(state.context.colors);
-  if (slug !== "") {
-    return `       ${pad(slug, 18)}${pad(title, 32)}${period}\n`;
-  }
-  const heading = `${paint(colors, "\x1b[1m", title)}  ${paint(colors, "\x1b[2m", period)}`;
-  const body = (await state.flow(node, state)).trim();
-  return body === "" ? `${heading}\n\n` : `${heading}\n${body}\n\n`;
-};
+const titledPeriod =
+  (kind: "work" | "projects"): NodeHandler =>
+  async (node, state) => {
+    const title = String(resolveAttribute(node[1], state.renderData, "title") ?? "");
+    const period = displayPeriod(
+      String(resolveAttribute(node[1], state.renderData, "period") ?? ""),
+    );
+    const slug = String(resolveAttribute(node[1], state.renderData, "slug") ?? "");
+    const colors = Boolean(state.context.colors);
+    const body = (await state.flow(node, state)).trim();
+    if (slug !== "" && body === "") {
+      return `       ${pad(slug, 18)}${pad(title, 32)}${period}\n`;
+    }
+    const heading = `${paint(colors, "\x1b[1m", title)}  ${paint(colors, "\x1b[2m", period)}`;
+    if (slug !== "") {
+      const bin = String(state.data.bin ?? "sethyrung");
+      return `${heading}\n${body}\n${bin} ${kind} ${slug}\n\n`;
+    }
+    return body === "" ? `${heading}\n\n` : `${heading}\n${body}\n\n`;
+  };
 
-export const role: NodeHandler = titledPeriod;
-export const project: NodeHandler = titledPeriod;
+export const role: NodeHandler = titledPeriod("work");
+export const project: NodeHandler = titledPeriod("projects");
 
 export const stack: NodeHandler = async (node, state) => {
   const body = (await state.flow(node, state)).trim();
