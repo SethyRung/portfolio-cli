@@ -196,11 +196,29 @@ test("sethyrung about prints the bio on stdout and exits 0", async () => {
   expect(exitCode).toBe(0);
   expect(stderr).toBe("");
   const text = visible(stdout);
-  expect(text).toContain("web, mobile, and desktop");
+  expect(text).toContain("web · mobile · desktop");
   expect(text).toContain("Vue.js");
   expect(text).not.toContain("Royal University");
   expect(text).not.toContain("Credit Bureau Cambodia");
   expect(text).not.toContain("Full Stack Developer");
+});
+
+test("about prints labeled facts TITLE, SCOPE, STACK, NOTE", async () => {
+  const { stdout, stderr, exitCode } = await runCli(["about"]);
+  expect(exitCode).toBe(0);
+  expect(stderr).toBe("");
+  const text = visible(stdout);
+  expect(text).toMatch(/^  TITLE\s+Software Developer$/m);
+  expect(text).toContain("SCOPE");
+  expect(text).toContain("STACK");
+  expect(text).toContain("NOTE");
+  expect(text).toContain("web · mobile · desktop");
+  expect(text).toContain("Vue.js  Nuxt.js  TypeScript  React");
+  expect(text).toContain("Java  Spring Boot  C#  Kotlin");
+  expect(text).toContain("thoughtfully crafted");
+  expect(text).not.toContain("Full Stack Developer");
+  expect(text).not.toContain("Royal University");
+  expect(text).not.toContain("Credit Bureau Cambodia");
 });
 
 test("unknown Screen name lists known Screens on stderr and exits 1", async () => {

@@ -9,6 +9,23 @@ function pad(text: string, width: number): string {
   return text.length >= width ? text : `${text}${" ".repeat(width - text.length)}`;
 }
 
+function wrap(text: string, width: number): string[] {
+  const words = text.split(/\s+/).filter(Boolean);
+  const lines: string[] = [];
+  let line = "";
+  for (const word of words) {
+    const next = line === "" ? word : `${line} ${word}`;
+    if (next.length > width && line !== "") {
+      lines.push(line);
+      line = word;
+    } else {
+      line = next;
+    }
+  }
+  if (line !== "") lines.push(line);
+  return lines.length === 0 ? [""] : lines;
+}
+
 function displayPeriod(period: string): string {
   if (period.endsWith("—")) return `${period}now`;
   if (/^\d{2}\.\d{4}$/.test(period)) return `${period}—now`;
@@ -28,6 +45,15 @@ function findAnchors(node: unknown): { label: string; href: string }[] {
     return [{ label: textOf(node).trim(), href }];
   }
   return node.slice(2).flatMap(findAnchors);
+}
+
+function listItems(node: unknown): string[] {
+  if (typeof node === "string" || !Array.isArray(node) || node[0] === null) return [];
+  if (node[0] === "li") {
+    const label = textOf(node).trim();
+    return label === "" ? [] : [label];
+  }
+  return node.slice(2).flatMap(listItems);
 }
 
 export const identity: NodeHandler = (node, state) => {
@@ -70,6 +96,30 @@ export const catalog: NodeHandler = async (node, state) => {
   const header = paint(colors, "\x1b[1m", title);
   const body = (await state.flow(node, state)).trimEnd();
   return body === "" ? `${header}\n\n` : `${header}\n${body}\n\n`;
+};
+
+export const fact: NodeHandler = async (node, state) => {
+  const label = String(resolveAttribute(node[1], state.renderData, "label") ?? "");
+  const colors = Boolean(state.context.colors);
+  const items = listItems(node);
+  let lines: string[];
+  if (items.length > 0) {
+    lines = [];
+    for (let i = 0; i < items.length; i += 4) {
+      lines.push(items.slice(i, i + 4).join("  "));
+    }
+  } else {
+    const value = (await state.flow(node, state)).trim();
+    lines = value
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .flatMap((line) => wrap(line, 60));
+    if (lines.length === 0) lines = [""];
+  }
+  const first = `${paint(colors, "\x1b[1m", `  ${pad(label, 10)}`)}${lines[0]}`;
+  const rest = lines.slice(1).map((line) => `            ${line}`);
+  return `${[first, ...rest].join("\n")}\n`;
 };
 
 const titledPeriod: NodeHandler = async (node, state) => {

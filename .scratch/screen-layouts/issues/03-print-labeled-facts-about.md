@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** done
 
 Layout from the prototype:
 
@@ -18,9 +18,9 @@ Layout from the prototype:
             projects.
 ```
 
-- [ ] `about` prints About on stdout and exits 0
-- [ ] Rows are TITLE, SCOPE, STACK, NOTE
-- [ ] Tagline ("Full Stack Developer") does not appear
-- [ ] Education and certs do not appear
-- [ ] Extra tokens after `about` still fail
-- [ ] Tests spawn the CLI process only (S1)
+- [x] `about` prints About on stdout and exits 0
+- [x] Rows are TITLE, SCOPE, STACK, NOTE
+- [x] Tagline ("Full Stack Developer") does not appear
+- [x] Education and certs do not appear
+- [x] Extra tokens after `about` still fail
+- [x] Tests spawn the CLI process only (S1)

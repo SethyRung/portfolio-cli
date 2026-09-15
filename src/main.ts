@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderAnsi } from "@comark/ansi";
 import pkg from "../package.json" with { type: "json" };
-import { catalog, identity, links, project, role, stack, usage } from "./components.ts";
+import { catalog, fact, identity, links, project, role, stack, usage } from "./components.ts";
 
 const PACKAGE = "@sethyrung/portfolio";
 
@@ -61,7 +61,7 @@ async function printScreen(relativePath: string): Promise<void> {
   const markdown = readFileSync(join(contentDir, relativePath), "utf8");
   const output = await renderAnsi(markdown, {
     width,
-    components: { catalog, identity, links, project, role, stack, usage },
+    components: { catalog, fact, identity, links, project, role, stack, usage },
     data: { bin: launcherBin() },
   });
   process.stdout.write(output);
