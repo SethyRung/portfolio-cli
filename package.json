@@ -1,6 +1,6 @@
 {
   "name": "@sethyrung/portfolio",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Terminal portfolio for Sethy Rung: a Dev Card by default, other Screens on demand",
   "keywords": [
     "cli",
